@@ -1,12 +1,31 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 from io import StringIO
 
-# Function to calculate LTV:CAC ratio
-def calculate_ltv_cac(data):
-    # Assuming 'ltv' and 'cac' are columns in your data
-    data['ltv_cac_ratio'] = data['ltv'] / data['cac']
+# Function to calculate additional metrics
+def calculate_metrics(data):
+    # Assuming 'total_customer', 'active_rate', 'new_customer', 'funding_rate',
+    # 'arpu', 'direct_cost', 'churn_rate', 'funded_cac', 'year' are columns in your data
+
+    # Calculate active customer
+    data['active_customer'] = data['Total Customer'] * data['Active Rate']
+
+    # Calculate new funded customer
+    data['new_funded_customer'] = data['New Customer'] * data['Funding Rate']
+
+    # Calculate GP/Active
+    data['gp_per_active'] = (data['ARPU'] - data['Direct Cost']) / data['active_customer']
+
+    # Calculate LTV
+    data['ltv'] = (data['ARPU'] - data['Direct Cost']) / data['Churn Rate']
+
+    # Calculate LTV/CAC
+    data['ltv_cac_ratio'] = data['ltv'] / (data['Funded CAC'] * data['new_funded_customer'])
+
+    # Calculate Payback
+    data['payback'] = (data['ARPU'] - data['Direct Cost']) /data['Funded CAC']
+
     return data
 
 # Title of the app
@@ -17,16 +36,16 @@ st.write(data)
 
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
-    # Process and calculate LTV:CAC
-    processed_data = calculate_ltv_cac(data)
+    # Process and calculate additional metrics
+    processed_data = calculate_metrics(data)
     
     # Visualization
-    st.subheader('LTV:CAC Ratio Visualization')
-    fig, ax = plt.subplots()
-    ax.bar(processed_data.index, processed_data['ltv_cac_ratio'])
-    st.pyplot(fig)
+    st.subheader('Additional Metrics Visualization')
+    
+    # Line chart for LTV/CAC by year
+    fig_line_chart = px.line(processed_data, x='year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
+    st.plotly_chart(fig_line_chart)
 
     # Additional insights
     st.subheader('Insights')
     st.write("Your insights here based on the calculated data.")
-
