@@ -51,11 +51,13 @@ if 'data' in locals() and not data.empty:
     
     # Line chart for LTV/CAC by year
     fig_line_chart = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
-    st.plotly_chart(fig_line_chart)
 
     # Line chart for Payback by year
     fig_payback_chart = px.line(processed_data, x='Year', y='payback', title='Payback by Year')
-    st.plotly_chart(fig_payback_chart)
+
+    # Display both charts side by side
+    st.plotly_chart(fig_line_chart, use_container_width=True)
+    st.plotly_chart(fig_payback_chart, use_container_width=True)
 
     # Additional insights
     st.subheader('Insights')
