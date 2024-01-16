@@ -63,7 +63,8 @@ if 'data' in locals() and not data.empty:
     # Stacked column chart for Total Customer with Active and Inactive subcategories
     fig_stacked_column = px.bar(processed_data, x='Year', y=['active_customer', 'inactive_customer'],
                                 title='Total Customer with Active and Inactive Subcategories',
-                                labels={'value': 'Total Customer'})
+                                labels={'value': 'Total Customer'},
+                                text=['active_customer', 'inactive_customer'])
     fig_stacked_column.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
     st.plotly_chart(fig_stacked_column)
 
