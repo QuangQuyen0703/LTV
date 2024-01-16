@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import numpy as np
 
 # Function to calculate additional metrics
 def calculate_metrics(data, new_customer_values, funded_cac_values):
@@ -23,6 +24,10 @@ def calculate_metrics(data, new_customer_values, funded_cac_values):
 
     # Calculate new funded customer with user input values
     data['new_funded_customer'] = new_customer_values * data['Funding Rate']
+
+    # Convert funded_cac_values and new_funded_customer to NumPy arrays
+    funded_cac_values = np.array(funded_cac_values)
+    data['new_funded_customer'] = np.array(data['new_funded_customer'])
 
     # Calculate GP/Active
     data['gp_per_active'] = (data['ARPU'] - data['Direct Cost'])
