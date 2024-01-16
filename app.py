@@ -4,8 +4,8 @@ import plotly.express as px
 from io import StringIO
 
 # Function to calculate additional metrics
-def calculate_metrics(data):
-    # Assuming 'Year', 'Total Customer', 'Active Rate', 'New Customer', 'Funding Rate',
+def calculate_metrics(data, new_customer_values, funded_cac_values):
+    # Assuming 'Year', 'Total Customer', 'Active Rate', 'Funding Rate',
     # 'ARPU', 'Direct Cost', 'Churn Rate', 'Funded CAC' are columns in your data
 
     # Convert 'Direct Cost' to numeric
@@ -18,7 +18,7 @@ def calculate_metrics(data):
     # Calculate active customer
     data['active_customer'] = data['Total Customer'] * data['Active Rate']
 
-    # Calculate new funded customer
+    # Calculate new funded customer with user input values
     data['new_funded_customer'] = data['New Customer'] * data['Funding Rate']
 
     # Calculate GP/Active
@@ -28,10 +28,10 @@ def calculate_metrics(data):
     data['ltv'] = (data['ARPU'] - data['Direct Cost']) / data['Churn Rate']
 
     # Calculate LTV/CAC
-    data['ltv_cac_ratio'] = data['ltv'] / data['Funded CAC']
+    data['ltv_cac_ratio'] = data['ltv'] / (funded_cac_values * data['new_funded_customer'])
 
     # Calculate Payback
-    data['payback'] = (data['ARPU'] - data['Direct Cost']) / data['Funded CAC']
+    data['payback'] = (data['ARPU'] - data['Direct Cost']) / (funded_cac_values * data['new_funded_customer'])
 
     return data
 
@@ -41,23 +41,25 @@ st.title('LTV:CAC Visualization App')
 data = pd.read_csv("./data.csv")
 st.write(data)
 
+# Slider for user input
+new_customer_values = st.slider("Select 'New Customer' values for 2024-2028", min_value=0, max_value=100, value=(10, 20))
+funded_cac_values = st.slider("Select 'Funded CAC' values for 2024-2028", min_value=0, max_value=100, value=(5, 10))
+
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
-    # Process and calculate additional metrics
-    processed_data = calculate_metrics(data)
+    # Process and calculate additional metrics with user input values
+    processed_data = calculate_metrics(data, new_customer_values, funded_cac_values)
     
     # Visualization
     st.subheader('Additional Metrics Visualization')
     
     # Line chart for LTV/CAC by year
     fig_line_chart = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
+    st.plotly_chart(fig_line_chart)
 
     # Line chart for Payback by year
     fig_payback_chart = px.line(processed_data, x='Year', y='payback', title='Payback by Year')
-
-    # Display both charts side by side
-    st.plotly_chart(fig_line_chart, use_container_width=True)
-    st.plotly_chart(fig_payback_chart, use_container_width=True)
+    st.plotly_chart(fig_payback_chart)
 
     # Additional insights
     st.subheader('Insights')
