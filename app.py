@@ -3,39 +3,23 @@ import pandas as pd
 import plotly.express as px
 
 # Function to calculate additional metrics
-def calculate_metrics(data, new_customer_values, active_rate_values, funding_rate_values, arpu_values, direct_cost_values, churn_rate_values, funded_cac_values):
+def calculate_metrics(data, new_customer_values, funded_cac_values):
     # Assuming 'Year', 'Total Customer', 'Active Rate', 'Funding Rate',
     # 'ARPU', 'Direct Cost', 'Churn Rate', 'Funded CAC' are columns in your data
 
     # Convert 'Direct Cost' to numeric
     data['Direct Cost'] = pd.to_numeric(data['Direct Cost'], errors='coerce')
 
-    # Convert 'Total Customer', 'Active Rate', 'Funding Rate', 'ARPU', 'Churn Rate' to numeric if needed
+    # Convert 'Total Customer' and 'Active Rate' to numeric if needed
     data['Total Customer'] = pd.to_numeric(data['Total Customer'], errors='coerce')
     data['Active Rate'] = pd.to_numeric(data['Active Rate'], errors='coerce')
-    data['Funding Rate'] = pd.to_numeric(data['Funding Rate'], errors='coerce')
-    data['ARPU'] = pd.to_numeric(data['ARPU'], errors='coerce')
-    data['Churn Rate'] = pd.to_numeric(data['Churn Rate'], errors='coerce')
 
     # Calculate active customer
     data['active_customer'] = data['Total Customer'] * data['Active Rate']
 
-    # Make sure all user input values have the same length as 'Funding Rate'
+    # Make sure both new_customer_values and Funding Rate have the same length
     new_customer_values = new_customer_values[:len(data['Funding Rate'])]
-    active_rate_values = active_rate_values[:len(data['Funding Rate'])]
-    funding_rate_values = funding_rate_values[:len(data['Funding Rate'])]
-    arpu_values = arpu_values[:len(data['Funding Rate'])]
-    direct_cost_values = direct_cost_values[:len(data['Funding Rate'])]
-    churn_rate_values = churn_rate_values[:len(data['Funding Rate'])]
     funded_cac_values = funded_cac_values[:len(data['Funding Rate'])]
-
-    # Update data with user input values
-    data['New Customer'] = new_customer_values
-    data['Active Rate'] = active_rate_values
-    data['Funding Rate'] = funding_rate_values
-    data['ARPU'] = arpu_values
-    data['Direct Cost'] = direct_cost_values
-    data['Churn Rate'] = churn_rate_values
 
     # Calculate new funded customer with user input values
     data['new_funded_customer'] = new_customer_values * data['Funding Rate']
@@ -66,8 +50,28 @@ max_year = data['Year'].max()
 
 # Text inputs for user input
 new_customer_values = st.text_input(f"Enter 'New Customer' values for 2024-{max_year} (comma-separated):", "400000,400000,400000,400000,400000")
-active_rate_values = st.text_input(f"Enter 'Active Rate' values for 2024-{max_year} (comma-separated):", "0.8,0.8,0.8,0.8,0.8")
-funding_rate_values = st.text_input(f"Enter 'Funding Rate' values for 2024-{max_year} (comma-separated):", "0.1,0.1,0.1,0.1,0.1")
-arpu_values = st.text_input(f"Enter 'ARPU' values for 2024-{max_year} (comma-separated):", "100,100,100,100,100")
-direct_cost_values = st.text_input(f"Enter 'Direct Cost' values for 2024-{max_year} (comma-separated):", "50,50,50,50,50")
-churn_rate_values = st.text_input(f"Enter 'Churn Rate' values for 2024-{max_year} (comma-separated):", "0.05,0.
+funded_cac_values = st.text_input(f"Enter 'Funded CAC' values for 2024-{max_year} (comma-separated):", "2000,2000,2000,2000,2000")
+
+# Convert input strings to lists of integers
+new_customer_values = [int(value.strip()) for value in new_customer_values.split(',')]
+funded_cac_values = [int(value.strip()) for value in funded_cac_values.split(',')]
+
+# Check if data is available and then process it
+if 'data' in locals() and not data.empty:
+    # Process and calculate additional metrics with user input values
+    processed_data = calculate_metrics(data, new_customer_values, funded_cac_values)
+    
+    # Visualization
+    st.subheader('Additional Metrics Visualization')
+    
+    # Line chart for LTV/CAC by year
+    fig_line_chart = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
+    st.plotly_chart(fig_line_chart)
+
+    # Line chart for Payback by year
+    fig_payback_chart = px.line(processed_data, x='Year', y='payback', title='Payback by Year')
+    st.plotly_chart(fig_payback_chart)
+
+    # Additional insights
+    st.subheader('Insights')
+    st.write("Your insights here based on the calculated data.")
