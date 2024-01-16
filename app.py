@@ -45,25 +45,29 @@ st.title('LTV:CAC Visualization App')
 data = pd.read_csv("./data.csv")
 st.write(data)
 
-# Get the maximum year from the dataset
-max_year = data['Year'].max()
+# Separate historical data (2021-2023) and forecast data (2024-2028)
+historical_data = data[data['Year'] <= 2023]
+forecast_data = data[data['Year'] >= 2024]
 
 # Text inputs for user input
-new_customer_values = st.text_input(f"Enter 'New Customer' values for 2024-{max_year} (comma-separated):", "400000,400000,400000,400000,400000")
-funded_cac_values = st.text_input(f"Enter 'Funded CAC' values for 2024-{max_year} (comma-separated):", "2000,2000,2000,2000,2000")
+new_customer_values = st.text_input(f"Enter 'New Customer' values for 2024-2028 (comma-separated):", "400000,400000,400000,400000,400000")
+funded_cac_values = st.text_input(f"Enter 'Funded CAC' values for 2024-2028 (comma-separated):", "2000,2000,2000,2000,2000")
 
 # Convert input strings to lists of integers
 new_customer_values = [int(value.strip()) for value in new_customer_values.split(',')]
 funded_cac_values = [int(value.strip()) for value in funded_cac_values.split(',')]
 
 # Check if data is available and then process it
-if 'data' in locals() and not data.empty:
+if not historical_data.empty:
     # Process and calculate additional metrics with user input values
-    processed_data = calculate_metrics(data, new_customer_values, funded_cac_values)
-    
+    processed_data = calculate_metrics(historical_data, new_customer_values, funded_cac_values)
+
+    # Combine historical data with forecast data
+    processed_data = pd.concat([processed_data, forecast_data], ignore_index=True)
+
     # Visualization
     st.subheader('Additional Metrics Visualization')
-    
+
     # Line chart for LTV/CAC by year
     fig_line_chart = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
     fig_line_chart.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
