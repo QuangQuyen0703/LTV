@@ -28,7 +28,7 @@ def calculate_metrics(data, funded_cac_values):
     data['ltv'] = (data['ARPU'] - data['Direct Cost']) / data['Churn Rate']
 
     # Calculate LTV/CAC
-    data['ltv_cac_ratio'] = data['ltv'] / (funded_cac_values * data['new_funded_customer'])
+    data['ltv_cac_ratio'] = data['ltv'] / (data['Year'].map(funded_cac_values) * data['new_funded_customer'])
 
     # Calculate Payback
     data['payback'] = (data['ARPU'] - data['Direct Cost']) / funded_cac_values
