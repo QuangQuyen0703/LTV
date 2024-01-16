@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 # Function to calculate additional metrics
-def calculate_metrics(data, funded_cac_increase_percentage, start_year, end_year):
+def calculate_metrics(data, funded_cac_increase_percentage):
     # Assuming 'Year', 'Total Customer', 'Active Rate', 'New Customer', 'Funding Rate',
     # 'ARPU', 'Direct Cost', 'Churn Rate', 'Funded CAC' are columns in your data
 
@@ -20,18 +20,15 @@ def calculate_metrics(data, funded_cac_increase_percentage, start_year, end_year
     # Calculate inactive customer
     data['inactive_customer'] = data['Total Customer'] - data['active_customer']
 
-    # Calculate new funded customer
-    data['new_funded_customer'] = data['New Customer'] * data['Funding Rate']
+    # Apply Funded CAC increase only for the specified years (2024 to 2028)
+    mask = (data['Year'] >= 2024) & (data['Year'] <= 2028)
+    data.loc[mask, 'Funded CAC'] *= (1 + funded_cac_increase_percentage / 100)
 
     # Calculate GP/Active
     data['gp_per_active'] = (data['ARPU'] - data['Direct Cost'])
 
     # Calculate LTV
     data['ltv'] = (data['ARPU'] - data['Direct Cost']) / data['Churn Rate']
-
-    # Apply Funded CAC increase only for the specified years
-    mask = (data['Year'] >= start_year) & (data['Year'] <= end_year)
-    data.loc[mask, 'Funded CAC'] *= (1 + funded_cac_increase_percentage / 100)
 
     # Calculate LTV/CAC
     data['ltv_cac_ratio'] = data['ltv'] / data['Funded CAC']
@@ -52,14 +49,8 @@ if 'data' in locals() and not data.empty:
     # Slider for Funded CAC increase percentage from 2024 to 2028
     funded_cac_increase_percentage = st.slider('Funded CAC Increase Percentage (2024-2028)', min_value=0, max_value=100, step=1, value=0)
 
-    # Slider for the start year
-    start_year = st.slider('Start Year', min_value=data['Year'].min(), max_value=data['Year'].max(), step=1, value=data['Year'].min())
-
-    # Slider for the end year
-    end_year = st.slider('End Year', min_value=data['Year'].min(), max_value=data['Year'].max(), step=1, value=data['Year'].max())
-
     # Process and calculate additional metrics with user input values
-    processed_data = calculate_metrics(data, funded_cac_increase_percentage, start_year, end_year)
+    processed_data = calculate_metrics(data, funded_cac_increase_percentage)
     
     # Visualization
     st.subheader('Additional Metrics Visualization')
