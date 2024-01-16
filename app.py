@@ -78,6 +78,16 @@ if not historical_data.empty:
     fig_payback_chart.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
     st.plotly_chart(fig_payback_chart)
 
+    # Additional charts for 2024-2028
+    # Add more charts as needed
+    fig_chart_1 = px.line(processed_data, x='Year', y='Active Rate', title='Active Rate by Year')
+    fig_chart_1.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
+    st.plotly_chart(fig_chart_1)
+
+    fig_chart_2 = px.line(processed_data, x='Year', y='gp_per_active', title='GP per Active Customer by Year')
+    fig_chart_2.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
+    st.plotly_chart(fig_chart_2)
+
     # Additional insights
     st.subheader('Insights')
     st.write("Your insights here based on the calculated data.")
