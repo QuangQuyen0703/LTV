@@ -57,13 +57,17 @@ if 'data' in locals() and not data.empty:
     
     # Line chart for LTV/CAC by year
     fig_line_chart = go.Figure()
-    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'], mode='lines+markers', name='LTV/CAC Ratio'))
+    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
+                                     mode='lines+markers', name='LTV/CAC Ratio',
+                                     line=dict(color='red', width=2) if (2021 <= processed_data['Year'].min() <= 2023) else dict(color='darkgray', width=2)))
     fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
     st.plotly_chart(fig_line_chart)
 
     # Line chart for Payback by year
     fig_payback_chart = go.Figure()
-    fig_payback_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['payback'], mode='lines+markers', name='Payback'))
+    fig_payback_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['payback'],
+                                       mode='lines+markers', name='Payback',
+                                       line=dict(color='red', width=2) if (2021 <= processed_data['Year'].min() <= 2023) else dict(color='darkgray', width=2)))
     fig_payback_chart.update_layout(title='Payback by Year')
     st.plotly_chart(fig_payback_chart)
 
