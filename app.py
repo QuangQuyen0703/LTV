@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import plotly.graph_objects as go
 from io import StringIO
 
 # Function to calculate additional metrics
@@ -61,11 +61,10 @@ if 'data' in locals() and not data.empty:
     st.plotly_chart(fig_payback_chart)
 
     # Stacked column chart for Total Customer with Active and Inactive subcategories
-    fig_stacked_column = px.bar(processed_data, x='Year', y=['active_customer', 'inactive_customer'],
-                                title='Total Customer with Active and Inactive Subcategories',
-                                labels={'value': 'Total Customer'},
-                                text=['active_customer', 'inactive_customer'])
-    fig_stacked_column.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
+    fig_stacked_column = go.Figure()
+    fig_stacked_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['active_customer'], name='Active Customer'))
+    fig_stacked_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['inactive_customer'], name='Inactive Customer'))
+    fig_stacked_column.update_layout(barmode='stack', title='Total Customer with Active and Inactive Subcategories')
     st.plotly_chart(fig_stacked_column)
 
     # Additional insights
