@@ -24,6 +24,9 @@ def calculate_metrics(data, new_customer_values, funded_cac_values):
     # Calculate new funded customer with user input values
     data['new_funded_customer'] = new_customer_values * data['Funding Rate']
 
+    # Set values for years 2024-2028 to be the same as 2023
+    data.loc[data['Year'] >= 2024, ['ARPU', 'Direct Cost', 'Churn Rate']] = data.loc[data['Year'] == 2023, ['ARPU', 'Direct Cost', 'Churn Rate']].values[0]
+
     # Calculate GP/Active
     data['gp_per_active'] = (data['ARPU'] - data['Direct Cost'])
 
