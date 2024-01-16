@@ -46,8 +46,8 @@ data = pd.read_csv("./data.csv")
 st.write(data)
 
 # Text inputs for user input
-new_customer_values = st.text_input("Enter 'New Customer' values for 2024-2028 (comma-separated):", "400000,400000,400000,400000,400000")
-funded_cac_values = st.text_input("Enter 'Funded CAC' values for 2024-2028 (comma-separated):", "2000,2000,2000,2000,2000")
+new_customer_values = st.text_input("Enter 'New Customer' values for 2024-2028 (comma-separated):", "400000")
+funded_cac_values = st.text_input("Enter 'Funded CAC' values for 2024-2028 (comma-separated):", "10")
 
 # Convert input strings to lists of integers
 new_customer_values = [int(value.strip()) for value in new_customer_values.split(',')]
