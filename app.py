@@ -6,7 +6,7 @@ from io import StringIO
 # Function to calculate additional metrics
 def calculate_metrics(data):
     # Assuming 'Total Customer', 'Active Rate', 'New Customer', 'Funding Rate',
-    # 'ARPU', 'Direct Cost', 'churn_rate', 'Funded CAC', 'Year' are columns in your data
+    # 'ARPU', 'Direct Cost', 'Churn Rate', 'Funded CAC', 'Year' are columns in your data
 
     # Calculate active customer
     data['active_customer'] = data['Total Customer'] * data['Active Rate']
@@ -24,7 +24,7 @@ def calculate_metrics(data):
     data['ltv_cac_ratio'] = data['ltv'] / (data['Funded CAC'] * data['new_funded_customer'])
 
     # Calculate Payback
-    data['payback'] = (data['ARPU'] - data['Direct Cost']) /data['Funded CAC']
+    data['payback'] = (data['ARPU'] - data['Direct Cost']) / data['Funded CAC']
 
     return data
 
@@ -43,7 +43,7 @@ if 'data' in locals() and not data.empty:
     st.subheader('Additional Metrics Visualization')
     
     # Line chart for LTV/CAC by year
-    fig_line_chart = px.line(processed_data, x='year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
+    fig_line_chart = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
     st.plotly_chart(fig_line_chart)
 
     # Additional insights
