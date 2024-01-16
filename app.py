@@ -50,8 +50,9 @@ new_customer_values = st.text_input("Enter 'New Customer' values for 2024-2028 (
 funded_cac_values = st.text_input("Enter 'Funded CAC' values for 2024-2028 (comma-separated):", "10")
 
 # Convert input strings to lists of integers
-new_customer_values = [int(value.strip()) for value in new_customer_values.split(',')]
-funded_cac_values = [int(value.strip()) for value in funded_cac_values.split(',')]
+new_customer_values = [int(value.strip()) for value in new_customer_values.split(',') if value.strip()]
+funded_cac_values = [int(value.strip()) for value in funded_cac_values.split(',') if value.strip()]
+
 
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
