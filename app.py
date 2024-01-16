@@ -18,6 +18,9 @@ def calculate_metrics(data):
     # Calculate active customer
     data['active_customer'] = data['Total Customer'] * data['Active Rate']
 
+    # Calculate inactive customer
+    data['inactive_customer'] = data['Total Customer'] - data['active_customer']
+
     # Calculate new funded customer
     data['new_funded_customer'] = data['New Customer'] * data['Funding Rate']
 
@@ -45,10 +48,10 @@ st.write(data)
 if 'data' in locals() and not data.empty:
     # Process and calculate additional metrics
     processed_data = calculate_metrics(data)
-    
+
     # Visualization
     st.subheader('Additional Metrics Visualization')
-    
+
     # Line chart for LTV/CAC by year
     fig_line_chart = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
     st.plotly_chart(fig_line_chart)
@@ -56,6 +59,13 @@ if 'data' in locals() and not data.empty:
     # Line chart for Payback by year
     fig_payback_chart = px.line(processed_data, x='Year', y='payback', title='Payback by Year')
     st.plotly_chart(fig_payback_chart)
+
+    # Stacked column chart for Total Customer with Active and Inactive subcategories
+    fig_stacked_column = px.bar(processed_data, x='Year', y=['active_customer', 'inactive_customer'],
+                                title='Total Customer with Active and Inactive Subcategories',
+                                labels={'value': 'Total Customer'})
+    fig_stacked_column.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
+    st.plotly_chart(fig_stacked_column)
 
     # Additional insights
     st.subheader('Insights')
