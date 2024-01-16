@@ -48,10 +48,10 @@ st.write(data)
 if 'data' in locals() and not data.empty:
     # Process and calculate additional metrics
     processed_data = calculate_metrics(data)
-
+    
     # Visualization
     st.subheader('Additional Metrics Visualization')
-
+    
     # Line chart for LTV/CAC by year
     fig_line_chart = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
     st.plotly_chart(fig_line_chart)
