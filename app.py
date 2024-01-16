@@ -22,13 +22,13 @@ def calculate_metrics(data):
     data['new_funded_customer'] = data['New Customer'] * data['Funding Rate']
 
     # Calculate GP/Active
-    data['gp_per_active'] = (data['ARPU'] - data['Direct Cost']) / data['active_customer']
+    data['gp_per_active'] = (data['ARPU'] - data['Direct Cost'])
 
     # Calculate LTV
     data['ltv'] = (data['ARPU'] - data['Direct Cost']) / data['Churn Rate']
 
     # Calculate LTV/CAC
-    data['ltv_cac_ratio'] = data['ltv'] / (data['Funded CAC'] * data['new_funded_customer'])
+    data['ltv_cac_ratio'] = data['ltv'] / data['Funded CAC']
 
     # Calculate Payback
     data['payback'] = (data['ARPU'] - data['Direct Cost']) / data['Funded CAC']
