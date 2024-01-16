@@ -4,7 +4,7 @@ import plotly.express as px
 
 # Function to calculate additional metrics
 def calculate_metrics(data, new_customer_values, funded_cac_values):
-    # Assuming 'Year', 'Total Customer', 'Active Rate', 'New Customer', 'Funding Rate',
+    # Assuming 'Year', 'Total Customer', 'Active Rate', 'Funding Rate',
     # 'ARPU', 'Direct Cost', 'Churn Rate', 'Funded CAC' are columns in your data
 
     # Convert 'Direct Cost' to numeric
@@ -45,14 +45,16 @@ st.title('LTV:CAC Visualization App')
 data = pd.read_csv("./data.csv")
 st.write(data)
 
+# Get the maximum year from the dataset
+max_year = data['Year'].max()
+
 # Text inputs for user input
-new_customer_values = st.text_input("Enter 'New Customer' values for 2024-2028 (comma-separated):", "400000")
-funded_cac_values = st.text_input("Enter 'Funded CAC' values for 2024-2028 (comma-separated):", "10")
+new_customer_values = st.text_input(f"Enter 'New Customer' values for 2024-{max_year} (comma-separated):", "400000,400000,400000,400000,400000")
+funded_cac_values = st.text_input(f"Enter 'Funded CAC' values for 2024-{max_year} (comma-separated):", "2000,2000,2000,2000,2000")
 
 # Convert input strings to lists of integers
-new_customer_values = [int(value.strip()) for value in new_customer_values.split(',') if value.strip()]
-funded_cac_values = [int(value.strip()) for value in funded_cac_values.split(',') if value.strip()]
-
+new_customer_values = [int(value.strip()) for value in new_customer_values.split(',')]
+funded_cac_values = [int(value.strip()) for value in funded_cac_values.split(',')]
 
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
