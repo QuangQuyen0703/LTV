@@ -63,13 +63,6 @@ if 'data' in locals() and not data.empty:
     fig_payback_chart.update_layout(title='Payback by Year')
     st.plotly_chart(fig_payback_chart)
 
-    # Stacked column chart for Total Customer with Active and Inactive subcategories
-    fig_stacked_column = go.Figure()
-    fig_stacked_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['active_customer'], name='Active Customer'))
-    fig_stacked_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['inactive_customer'], name='Inactive Customer'))
-    fig_stacked_column.update_layout(barmode='stack', title='Total Customer with Active and Inactive Subcategories')
-    st.plotly_chart(fig_stacked_column)
-
     # Additional insights
     st.subheader('Insights')
     st.write("Your insights here based on the calculated data.")
