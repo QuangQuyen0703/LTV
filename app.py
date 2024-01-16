@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import numpy as np
 
 # Function to calculate additional metrics
 def calculate_metrics(data, new_customer_values, funded_cac_values):
@@ -19,15 +18,11 @@ def calculate_metrics(data, new_customer_values, funded_cac_values):
     data['active_customer'] = data['Total Customer'] * data['Active Rate']
 
     # Make sure both new_customer_values and Funding Rate have the same length
-    new_customer_values = new_customer_values[:len(data)]
-    funded_cac_values = funded_cac_values[:len(data)]
+    new_customer_values = new_customer_values[:len(data['Funding Rate'])]
+    funded_cac_values = funded_cac_values[:len(data['Funding Rate'])]
 
     # Calculate new funded customer with user input values
     data['new_funded_customer'] = new_customer_values * data['Funding Rate']
-
-    # Convert funded_cac_values and new_funded_customer to NumPy arrays
-    funded_cac_values = np.array(funded_cac_values)
-    data['new_funded_customer'] = np.array(data['new_funded_customer'])
 
     # Calculate GP/Active
     data['gp_per_active'] = (data['ARPU'] - data['Direct Cost'])
@@ -46,6 +41,7 @@ def calculate_metrics(data, new_customer_values, funded_cac_values):
 # Title of the app
 st.title('LTV:CAC Visualization App')
 
+# Sample data loading
 data = pd.read_csv("./data.csv")
 st.write(data)
 
