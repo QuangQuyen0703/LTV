@@ -66,10 +66,12 @@ if 'data' in locals() and not data.empty:
     
     # Line chart for LTV/CAC by year
     fig_line_chart = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
+    fig_line_chart.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
     st.plotly_chart(fig_line_chart)
 
     # Line chart for Payback by year
     fig_payback_chart = px.line(processed_data, x='Year', y='payback', title='Payback by Year')
+    fig_payback_chart.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
     st.plotly_chart(fig_payback_chart)
 
     # Additional insights
