@@ -17,6 +17,10 @@ def calculate_metrics(data, new_customer_values, funded_cac_values):
     # Calculate active customer
     data['active_customer'] = data['Total Customer'] * data['Active Rate']
 
+    # Make sure both new_customer_values and Funding Rate have the same length
+    new_customer_values = new_customer_values[:len(data)]
+    funded_cac_values = funded_cac_values[:len(data)]
+
     # Calculate new funded customer with user input values
     data['new_funded_customer'] = new_customer_values * data['Funding Rate']
 
