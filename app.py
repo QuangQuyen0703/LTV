@@ -1,10 +1,9 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from io import StringIO
 
 # Function to calculate additional metrics
-def calculate_metrics(data, new_customer_value, funded_cac_value):
+def calculate_metrics(data, new_customer_values, funded_cac_values):
     # Assuming 'Year', 'Total Customer', 'Active Rate', 'New Customer', 'Funding Rate',
     # 'ARPU', 'Direct Cost', 'Churn Rate', 'Funded CAC' are columns in your data
 
@@ -18,8 +17,8 @@ def calculate_metrics(data, new_customer_value, funded_cac_value):
     # Calculate active customer
     data['active_customer'] = data['Total Customer'] * data['Active Rate']
 
-    # Calculate new funded customer with user input value
-    data['new_funded_customer'] = new_customer_value * data['Funding Rate']
+    # Calculate new funded customer with user input values
+    data['new_funded_customer'] = new_customer_values * data['Funding Rate']
 
     # Calculate GP/Active
     data['gp_per_active'] = (data['ARPU'] - data['Direct Cost'])
@@ -28,10 +27,10 @@ def calculate_metrics(data, new_customer_value, funded_cac_value):
     data['ltv'] = (data['ARPU'] - data['Direct Cost']) / data['Churn Rate']
 
     # Calculate LTV/CAC
-    data['ltv_cac_ratio'] = data['ltv'] / (funded_cac_value * data['new_funded_customer'])
+    data['ltv_cac_ratio'] = data['ltv'] / (funded_cac_values * data['new_funded_customer'])
 
     # Calculate Payback
-    data['payback'] = (data['ARPU'] - data['Direct Cost']) / (funded_cac_value * data['new_funded_customer'])
+    data['payback'] = (data['ARPU'] - data['Direct Cost']) / (funded_cac_values * data['new_funded_customer'])
 
     return data
 
@@ -41,14 +40,18 @@ st.title('LTV:CAC Visualization App')
 data = pd.read_csv("./data.csv")
 st.write(data)
 
-# Slider for user input
-new_customer_value = st.slider("Select 'New Customer' value for 2024-2028", min_value=0, max_value=100, value=10)
-funded_cac_value = st.slider("Select 'Funded CAC' value for 2024-2028", min_value=0, max_value=100, value=5)
+# Text inputs for user input
+new_customer_values = st.text_input("Enter 'New Customer' values for 2024-2028 (comma-separated):", "400000,400000,400000,400000,400000")
+funded_cac_values = st.text_input("Enter 'Funded CAC' values for 2024-2028 (comma-separated):", "2000,2000,2000,2000,2000")
+
+# Convert input strings to lists of integers
+new_customer_values = [int(value.strip()) for value in new_customer_values.split(',')]
+funded_cac_values = [int(value.strip()) for value in funded_cac_values.split(',')]
 
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
     # Process and calculate additional metrics with user input values
-    processed_data = calculate_metrics(data, new_customer_value, funded_cac_value)
+    processed_data = calculate_metrics(data, new_customer_values, funded_cac_values)
     
     # Visualization
     st.subheader('Additional Metrics Visualization')
