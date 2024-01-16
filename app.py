@@ -5,8 +5,8 @@ from io import StringIO
 
 # Function to calculate additional metrics
 def calculate_metrics(data):
-    # Assuming 'total_customer', 'active_rate', 'new_customer', 'funding_rate',
-    # 'arpu', 'direct_cost', 'churn_rate', 'funded_cac', 'year' are columns in your data
+    # Assuming 'Total Customer', 'Active Rate', 'New Customer', 'Funding Rate',
+    # 'ARPU', 'Direct Cost', 'churn_rate', 'Funded CAC', 'Year' are columns in your data
 
     # Calculate active customer
     data['active_customer'] = data['Total Customer'] * data['Active Rate']
