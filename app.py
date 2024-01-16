@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 # Function to calculate additional metrics
-def calculate_metrics(data, funded_cac_multiplier):
+def calculate_metrics(data, funded_cac_increase_percentage):
     # Assuming 'Year', 'Total Customer', 'Active Rate', 'New Customer', 'Funding Rate',
     # 'ARPU', 'Direct Cost', 'Churn Rate', 'Funded CAC' are columns in your data
 
@@ -20,11 +20,11 @@ def calculate_metrics(data, funded_cac_multiplier):
     # Calculate inactive customer
     data['inactive_customer'] = data['Total Customer'] - data['active_customer']
 
-    # Calculate new funded customer with user input values
+    # Calculate new funded customer
     data['new_funded_customer'] = data['New Customer'] * data['Funding Rate']
 
-    # Update Funded CAC based on the multiplier
-    data['Funded CAC'] *= funded_cac_multiplier
+    # Increase Funded CAC based on the percentage
+    data['Funded CAC'] *= (1 + funded_cac_increase_percentage / 100)
 
     # Calculate GP/Active
     data['gp_per_active'] = (data['ARPU'] - data['Direct Cost'])
@@ -46,13 +46,13 @@ st.title('LTV:CAC Visualization App')
 data = pd.read_csv("./data.csv")
 st.write(data)
 
-# Slider for Funded CAC multiplier
-funded_cac_multiplier = st.slider('Funded CAC Multiplier', min_value=0.0, max_value=1.0, step=0.01, value=1.0)
+# Slider for Funded CAC increase percentage
+funded_cac_increase_percentage = st.slider('Funded CAC Increase Percentage', min_value=0, max_value=100, step=1, value=0)
 
 # Check if data is available and then process it
 if not data.empty:
     # Process and calculate additional metrics with user input values
-    processed_data = calculate_metrics(data, funded_cac_multiplier)
+    processed_data = calculate_metrics(data, funded_cac_increase_percentage)
     
     # Visualization
     st.subheader('Additional Metrics Visualization')
