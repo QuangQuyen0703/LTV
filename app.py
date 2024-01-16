@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from io import StringIO
 
 # Function to calculate additional metrics
 def calculate_metrics(data):
@@ -53,11 +52,15 @@ if 'data' in locals() and not data.empty:
     st.subheader('Additional Metrics Visualization')
     
     # Line chart for LTV/CAC by year
-    fig_line_chart = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
+    fig_line_chart = go.Figure()
+    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'], mode='lines+markers', name='LTV/CAC Ratio'))
+    fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
     st.plotly_chart(fig_line_chart)
 
     # Line chart for Payback by year
-    fig_payback_chart = px.line(processed_data, x='Year', y='payback', title='Payback by Year')
+    fig_payback_chart = go.Figure()
+    fig_payback_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['payback'], mode='lines+markers', name='Payback'))
+    fig_payback_chart.update_layout(title='Payback by Year')
     st.plotly_chart(fig_payback_chart)
 
     # Stacked column chart for Total Customer with Active and Inactive subcategories
