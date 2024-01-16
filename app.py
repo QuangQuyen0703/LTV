@@ -71,26 +71,35 @@ if not historical_data.empty:
     # Visualization
     st.subheader('Additional Metrics Visualization')
 
-    # Line chart for LTV/CAC by year
-    fig_line_chart = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/CAC Ratio by Year')
-    fig_line_chart.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
-    st.plotly_chart(fig_line_chart)
-
-    # Line chart for Payback by year
-    fig_payback_chart = px.line(processed_data, x='Year', y='payback', title='Payback by Year')
-    fig_payback_chart.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
-    st.plotly_chart(fig_payback_chart)
-
-    # Additional charts for 2024-2028
-    # Add more charts as needed
-    fig_chart_1 = px.line(processed_data, x='Year', y='Active Rate', title='Active Rate by Year')
+    # Line chart for Total Customer by year
+    fig_chart_1 = px.line(processed_data, x='Year', y='Total Customer', title='Total Customer by Year')
     fig_chart_1.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
     st.plotly_chart(fig_chart_1)
 
-    fig_chart_2 = px.line(processed_data, x='Year', y='gp_per_active', title='GP per Active Customer by Year')
+    # Line chart for New Customer by year
+    fig_chart_2 = px.line(processed_data, x='Year', y='new_funded_customer', title='New Funded Customer by Year')
     fig_chart_2.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
     st.plotly_chart(fig_chart_2)
 
-    # Additional insights
-    st.subheader('Insights')
-    st.write("Your insights here based on the calculated data.")
+    # Line chart for Active Rate by year
+    fig_chart_3 = px.line(processed_data, x='Year', y='Active Rate', title='Active Rate by Year')
+    fig_chart_3.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
+    st.plotly_chart(fig_chart_3)
+
+    # Line chart for Funded Customer by year
+    fig_chart_4 = px.line(processed_data, x='Year', y='new_funded_customer', title='Funded Customer by Year')
+    fig_chart_4.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
+    st.plotly_chart(fig_chart_4)
+
+    # Line chart for GP/Active by year
+    fig_chart_5 = px.line(processed_data, x='Year', y='gp_per_active', title='GP per Active Customer by Year')
+    fig_chart_5.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
+    st.plotly_chart(fig_chart_5)
+
+    # Line chart for LTV/Funded CAC by year
+    fig_chart_6 = px.line(processed_data, x='Year', y='ltv_cac_ratio', title='LTV/Funded CAC Ratio by Year')
+    fig_chart_6.update_xaxes(type='category', tickmode='linear', categoryorder='category ascending')
+    st.plotly_chart(fig_chart_6)
+
+    # Line chart for Payback by year
+    fig_chart_7 = px.line(processed
