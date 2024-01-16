@@ -5,8 +5,15 @@ from io import StringIO
 
 # Function to calculate additional metrics
 def calculate_metrics(data):
-    # Assuming 'Total Customer', 'Active Rate', 'New Customer', 'Funding Rate',
-    # 'ARPU', 'Direct Cost', 'Churn Rate', 'Funded CAC', 'Year' are columns in your data
+    # Assuming 'Year', 'Total Customer', 'Active Rate', 'New Customer', 'Funding Rate',
+    # 'ARPU', 'Direct Cost', 'Churn Rate', 'Funded CAC' are columns in your data
+
+    # Convert 'Direct Cost' to numeric
+    data['Direct Cost'] = pd.to_numeric(data['Direct Cost'], errors='coerce')
+
+    # Convert 'Total Customer' and 'Active Rate' to numeric if needed
+    data['Total Customer'] = pd.to_numeric(data['Total Customer'], errors='coerce')
+    data['Active Rate'] = pd.to_numeric(data['Active Rate'], errors='coerce')
 
     # Calculate active customer
     data['active_customer'] = data['Total Customer'] * data['Active Rate']
