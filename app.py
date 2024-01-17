@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 # Function to calculate additional metrics
 def calculate_metrics(data, funded_cac_increase):
@@ -61,21 +62,21 @@ if 'data' in locals() and not data.empty:
     # Visualization
     st.subheader('Additional Metrics Visualization')
     
-    # Line chart for LTV/CAC by year
-    fig_line_chart = go.Figure()
-    
     # Highlight the forecast period with a shaded rectangle
     forecast_start_year = 2024
     forecast_end_year = 2028
-    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
-                                       mode='lines+markers', name='LTV/CAC Ratio',
-                                       text=processed_data['ltv_cac_ratio'].round(2),
-                                       textposition='top center'))
-    
-    fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
 
+    # Create subplots with 2 rows and 1 column
+    fig = make_subplots(rows=2, cols=1, shared_xaxes=True, subplot_titles=['LTV/CAC Ratio', 'Funded CAC and LTV'])
+
+    # Line chart for LTV/CAC by year (Top subplot)
+    fig.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
+                             mode='lines+markers', name='LTV/CAC Ratio',
+                             text=processed_data['ltv_cac_ratio'].round(2),
+                             textposition='top center'), row=1, col=1)
+    
     # Add a shaded rectangle to highlight the forecast period
-    fig_line_chart.update_layout(shapes=[
+    fig.update_layout(shapes=[
         dict(
             type='rect',
             x0=forecast_start_year,
@@ -86,68 +87,22 @@ if 'data' in locals() and not data.empty:
             layer='below',
             line=dict(width=0),
         )
-    ])
+    ], row=1, col=1)
 
-    st.plotly_chart(fig_line_chart)
-
-    # Line chart for Payback by year
-    fig_payback_chart = go.Figure()
-
-    # Highlight the forecast period with a shaded rectangle
-    fig_payback_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['payback'],
-                                          mode='lines+markers', name='Payback',
-                                          text=processed_data['payback'].round(2),
-                                          textposition='top center'))
+    # Column chart for Funded CAC and LTV by year (Bottom subplot)
+    fig.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['Funded CAC'],
+                         name='Funded CAC',
+                         text=processed_data['Funded CAC'].round(2),
+                         textposition='outside'), row=2, col=1)
     
-    fig_payback_chart.update_layout(title='Payback by Year')
+    fig.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv'],
+                         name='LTV',
+                         text=processed_data['ltv'].round(2),
+                         textposition='outside'), row=2, col=1)
 
-    # Add a shaded rectangle to highlight the forecast period
-    fig_payback_chart.update_layout(shapes=[
-        dict(
-            type='rect',
-            x0=forecast_start_year,
-            x1=forecast_end_year,
-            y0=processed_data['payback'].min(),
-            y1=processed_data['payback'].max(),
-            fillcolor='rgba(0, 100, 0, 0.1)',
-            layer='below',
-            line=dict(width=0),
-        )
-    ])
+    fig.update_layout(barmode='group', title_text='Funded CAC and LTV by Year', showlegend=False)
 
-    st.plotly_chart(fig_payback_chart)
-
-    # Column chart for New Customer by year (units in thousands)
-    st.subheader('New Customer by Year')
-    fig_new_customer_column = go.Figure()
-    fig_new_customer_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['new_customer'] / 1000,
-                                             name='New Customer (in thousands)',
-                                             text=(processed_data['new_customer'] / 1000).round(2),
-                                             textposition='outside'))
-    
-    fig_new_customer_column.update_layout(title='New Customer by Year (in thousands)')
-
-    st.plotly_chart(fig_new_customer_column)
-
-    # Column chart for Funded CAC and LTV by year
-    st.subheader('Funded CAC and LTV by Year')
-    fig_funded_cac_ltv_column = go.Figure()
-    
-    # Add Funded CAC to the column chart
-    fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['Funded CAC'],
-                                               name='Funded CAC',
-                                               text=processed_data['Funded CAC'].round(2),
-                                               textposition='outside'))
-    
-    # Add LTV to the column chart
-    fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv'],
-                                               name='LTV',
-                                               text=processed_data['ltv'].round(2),
-                                               textposition='outside'))
-    
-    fig_funded_cac_ltv_column.update_layout(barmode='group', title='Funded CAC and LTV by Year')
-
-    st.plotly_chart(fig_funded_cac_ltv_column)
+    st.plotly_chart(fig)
 
     # Additional insights
     st.subheader('Insights')
