@@ -100,16 +100,17 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_funded_cac_ltv_column)
     
-    # Line chart for LTV/CAC by year
+    # Column chart for LTV/CAC by year
     fig_line_chart = go.Figure()
     
     # Highlight the forecast period with a shaded rectangle
     forecast_start_year = 2024
     forecast_end_year = 2028
-    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
-                                       mode='lines+markers', name='LTV/CAC Ratio',
-                                       text=processed_data['ltv_cac_ratio'].round(2),
-                                       textposition='top center'))
+    fig_line_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
+                                   name='LTV/CAC Ratio',
+                                   marker_color='#00CC96',  # Set color to green
+                                   text=processed_data['ltv_cac_ratio'].round(2),
+                                   textposition='outside'))
     
     fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
 
@@ -129,14 +130,15 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_line_chart)
 
-    # Line chart for Payback by year
+    # Column chart for Payback by year
     fig_payback_chart = go.Figure()
 
     # Highlight the forecast period with a shaded rectangle
-    fig_payback_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['payback'],
-                                          mode='lines+markers', name='Payback',
-                                          text=processed_data['payback'].round(2),
-                                          textposition='top center'))
+    fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
+                                      name='Payback',
+                                      marker_color='#FFA15A',  # Set color to orange
+                                      text=processed_data['payback'].round(2),
+                                      textposition='outside'))
     
     fig_payback_chart.update_layout(title='Payback by Year')
 
