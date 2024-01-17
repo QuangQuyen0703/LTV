@@ -66,7 +66,7 @@ if 'data' in locals() and not data.empty:
 
     st.subheader('Definition:')
     # Additional insights
-    st.write("Payback is calculated by dividing Funded CAC by GP per Active..")
+    st.write("Payback is calculated using the formula of dividing Funded CAC by GP per Active.")
     
     # Visualization
     st.subheader('Additional Metrics Visualization')
