@@ -62,7 +62,9 @@ if 'data' in locals() and not data.empty:
     forecast_start_year = 2024
     forecast_end_year = 2028
     fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
-                                       mode='lines+markers', name='LTV/CAC Ratio'))
+                                       mode='lines+markers', name='LTV/CAC Ratio',
+                                       text=processed_data['ltv_cac_ratio'].round(2), # Display rounded values as text
+                                       textposition='top center'))  # Adjust text position
     
     fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
 
@@ -87,7 +89,9 @@ if 'data' in locals() and not data.empty:
 
     # Highlight the forecast period with a shaded rectangle
     fig_payback_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['payback'],
-                                          mode='lines+markers', name='Payback'))
+                                          mode='lines+markers', name='Payback',
+                                          text=processed_data['payback'].round(2), # Display rounded values as text
+                                          textposition='top center'))  # Adjust text position
     
     fig_payback_chart.update_layout(title='Payback by Year')
 
