@@ -46,7 +46,9 @@ def calculate_metrics(data, funded_cac_increase):
     return data
 
 # Title of the app
-st.title('LTV:CAC Visualization App')
+st.title('LTV Analysis')
+
+st.write('Raw Data')
 
 data = pd.read_csv("./data.csv")
 st.write(data)
@@ -137,3 +139,35 @@ if 'data' in locals() and not data.empty:
     st.plotly_chart(fig_line_chart)
 
     # Column chart for Payback by year
+    fig_payback_chart = go.Figure()
+
+    # Highlight the forecast period with a shaded rectangle
+    fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
+                                      name='Payback',
+                                      marker_color='#FF9425',  # Set color to orange
+                                      text=processed_data['payback'].round(2),
+                                      textposition='outside'))
+    
+    fig_payback_chart.update_layout(title='Payback by Year')
+
+    # Add a shaded rectangle to highlight the forecast period
+    fig_payback_chart.update_layout(shapes=[
+        dict(
+            type='rect',
+            x0=forecast_start_year,
+            x1=forecast_end_year,
+            y0=processed_data['payback'].min(),
+            y1=processed_data['payback'].max(),
+            fillcolor='rgba(0, 100, 0, 0.1)',
+            layer='below',
+            line=dict(width=0),
+        )
+    ])
+    fig_payback_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
+    fig_payback_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
+
+    st.plotly_chart(fig_payback_chart)
+
+    # Additional insights
+    st.subheader('Insights')
+    st.write("Your insights here based on the calculated data.")
