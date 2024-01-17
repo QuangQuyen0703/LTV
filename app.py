@@ -91,7 +91,7 @@ if 'data' in locals() and not data.empty:
     # Add LTV to the column chart with blue color
     fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv'],
                                                name='LTV',
-                                               marker_color='blue',  # Set color to blue
+                                               marker_color='#2774AE',  # Set color to blue
                                                text=processed_data['ltv'].round(2),
                                                textposition='outside'))
     
