@@ -67,22 +67,22 @@ if 'data' in locals() and not data.empty:
     # Visualization
     st.subheader('Additional Metrics Visualization')
 
-    # Column chart for New Customer by year (Unit: Thousands)
-    fig_new_customer_column = go.Figure()
+    # Column chart for Payback by year
+    fig_payback_chart = go.Figure()
 
-    # Set the color to purple (#563D82)
-    new_customer_color = '#563D82'
-    fig_new_customer_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['new_customer'] / 1000,
-                                             name='New Customer (in thousands)',
-                                             marker_color=new_customer_color,
-                                             text=(processed_data['new_customer'] / 1000).round(2),
-                                             textposition='outside'))
+    # Add Payback to the column chart with a different color
+    fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
+                                      name='Payback',
+                                      marker_color='#563D82',  
+                                      text=processed_data['payback'].round(2),
+                                      textposition='outside'))
     
-    fig_new_customer_column.update_layout(title='New Customer Acquisition (Unit: Thousands)')
-    fig_new_customer_column.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-    fig_new_customer_column.update_yaxes(showgrid=False)  # Remove y-axis gridlines
+    fig_payback_chart.update_layout(title='Payback (Unit: Year)')
 
-    st.plotly_chart(fig_new_customer_column)
+    fig_payback_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
+    fig_payback_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
+
+    st.plotly_chart(fig_payback_chart)
 
     # Column chart for Funded CAC and LTV by year
     fig_funded_cac_ltv_column = go.Figure()
@@ -109,28 +109,29 @@ if 'data' in locals() and not data.empty:
     
     # Line chart for LTV/CAC by year
     fig_line_chart = go.Figure()
-    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'], mode='lines+markers', name='LTV/CAC Ratio', line=dict(color='#00FF00')))  # Màu xanh lá cây
+    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'], mode='lines+markers', name='LTV/CAC Ratio', line=dict(color='#EB3300'))) 
     fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
     fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
     fig_line_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
     st.plotly_chart(fig_line_chart)
 
-    # Column chart for Payback by year
-    fig_payback_chart = go.Figure()
 
-    # Add Payback to the column chart with a different color
-    fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
-                                      name='Payback',
-                                      marker_color='#FF9425',  
-                                      text=processed_data['payback'].round(2),
-                                      textposition='outside'))
+    # Column chart for New Customer by year (Unit: Thousands)
+    fig_new_customer_column = go.Figure()
+
+    # Set the color to purple (#FF9425)
+    new_customer_color = '#563D82'
+    fig_new_customer_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['new_customer'] / 1000,
+                                             name='New Customer (in thousands)',
+                                             marker_color=new_customer_color,
+                                             text=(processed_data['new_customer'] / 1000).round(2),
+                                             textposition='outside'))
     
-    fig_payback_chart.update_layout(title='Payback (Unit: Year)')
+    fig_new_customer_column.update_layout(title='New Customer Acquisition (Unit: Thousands)')
+    fig_new_customer_column.update_xaxes(showgrid=False)  # Remove x-axis gridlines
+    fig_new_customer_column.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
-    fig_payback_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-    fig_payback_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
-
-    st.plotly_chart(fig_payback_chart)
+    st.plotly_chart(fig_new_customer_column)
 
     # Additional insights
     st.write("Your insights here based on the calculated data.")
