@@ -124,5 +124,5 @@ if 'data' in locals() and not data.empty:
     fig_line_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
     st.plotly_chart(fig_line_chart)
-
+st.title('Thank You')
 
