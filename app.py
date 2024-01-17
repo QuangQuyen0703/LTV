@@ -129,6 +129,26 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_new_customer_column)
 
+    # Column chart for Funded CAC and LTV by year
+    st.subheader('Funded CAC and LTV by Year')
+    fig_funded_cac_ltv_column = go.Figure()
+    
+    # Add Funded CAC to the column chart
+    fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['Funded CAC'],
+                                               name='Funded CAC',
+                                               text=processed_data['Funded CAC'].round(2),
+                                               textposition='outside'))
+    
+    # Add LTV to the column chart
+    fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv'],
+                                               name='LTV',
+                                               text=processed_data['ltv'].round(2),
+                                               textposition='outside'))
+    
+    fig_funded_cac_ltv_column.update_layout(barmode='group', title='Funded CAC and LTV by Year')
+
+    st.plotly_chart(fig_funded_cac_ltv_column)
+
     # Additional insights
     st.subheader('Insights')
     st.write("Your insights here based on the calculated data.")
