@@ -47,7 +47,7 @@ st.write(data)
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
     # Slider for Funded CAC increase from 5 to 40
-    funded_cac_increase = st.slider('Funded CAC Input 2024-2028 ($)', min_value=10, max_value=40, step=1, value=10)
+    funded_cac_increase = st.slider('Funded CAC Input 2024-2028 ($)', min_value=10, max_value=20, step=1, value=10)
 
     # Process and calculate additional metrics with user input values
     processed_data = calculate_metrics(data, funded_cac_increase)
