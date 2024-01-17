@@ -46,7 +46,7 @@ def calculate_metrics(data, funded_cac_increase):
     return data
 
 # Title of the app
-st.title('LTV Analysis')
+st.title('LTV Simulator')
 
 # Create a sidebar for input
 st.sidebar.title("Input Settings")
