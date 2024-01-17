@@ -48,7 +48,7 @@ def calculate_metrics(data, funded_cac_increase):
 # Title of the app
 st.title('LTV Analysis')
 
-st.write('Data')
+st.write('Raw Data')
 
 data = pd.read_csv("./data.csv")
 st.write(data)
