@@ -61,17 +61,21 @@ if 'data' in locals() and not data.empty:
     # Visualization
     st.subheader('Additional Metrics Visualization')
 
-     # Column chart for New Customer by year (units in thousands)
-    st.subheader('New Customer by Year')
-    fig_new_customer_column = go.Figure()
-    fig_new_customer_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['new_customer'] / 1000,
-                                             name='New Customer (in thousands)',
-                                             text=(processed_data['new_customer'] / 1000).round(2),
-                                             textposition='outside'))
-    
-    fig_new_customer_column.update_layout(title='New Customer by Year (in thousands)')
+    # Column chart for New Customer by year (units in thousands)
+st.subheader('New Customer by Year')
+fig_new_customer_column = go.Figure()
 
-    st.plotly_chart(fig_new_customer_column)
+# Add a trace for New Customer with the specified color
+new_customer_color = '#563D82'
+fig_new_customer_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['new_customer'] / 1000,
+                                         name='New Customer (in thousands)',
+                                         marker_color=new_customer_color,
+                                         text=(processed_data['new_customer'] / 1000).round(2),
+                                         textposition='outside'))
+
+fig_new_customer_column.update_layout(title='New Customer by Year (in thousands)')
+
+st.plotly_chart(fig_new_customer_column)
 
     # Column chart for Funded CAC and LTV by year
     st.subheader('Funded CAC and LTV by Year')
