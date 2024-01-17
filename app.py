@@ -48,17 +48,18 @@ def calculate_metrics(data, funded_cac_increase):
 # Title of the app
 st.title('LTV Analysis')
 
-st.write('Raw Data')
+# Create a sidebar for input
+st.sidebar.title("Input Settings")
 
+# Raw Data
+st.sidebar.subheader('Raw Data')
 data = pd.read_csv("./data.csv")
-st.write(data)
+st.sidebar.write(data)
 
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
-    # Create an expander for Funded CAC input
-    with st.beta_expander("Input Manually", expanded=True):
-        # Input for Funded CAC increase from 5 to 30
-        funded_cac_increase = st.number_input('Funded CAC Input 2024-2028 (Unit: USD)', min_value=5, max_value=30, step=1, value=10)
+    # Input for Funded CAC increase from 5 to 30
+    funded_cac_increase = st.sidebar.number_input('Funded CAC Input 2024-2028 (Unit: USD)', min_value=5, max_value=30, step=1, value=10)
 
     # Process and calculate additional metrics with user input values
     processed_data = calculate_metrics(data, funded_cac_increase)
