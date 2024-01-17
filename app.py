@@ -115,11 +115,7 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_payback_chart)
 
-    # Column chart for Total Gross Profit by year
-    st.subheader('Total Gross Profit')
-    fig, ax = plt.subplots()
-    ax.bar(processed_data['Year'], processed_data['total_gross_profit'])
-    st.pyplot(fig)
+   
 
     # Additional insights
     st.subheader('Insights')
