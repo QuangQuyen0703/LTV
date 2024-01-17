@@ -47,7 +47,7 @@ st.write(data)
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
     # Slider for Funded CAC increase from 5 to 40
-    funded_cac_increase = st.slider('Funded CAC Input 2024-2028 ($)', min_value=10, max_value=20, step=1, value=10)
+    funded_cac_increase = st.slider('Funded CAC Input 2024-2028 ($)', min_value=10, max_value=40, step=1, value=10)
 
     # Process and calculate additional metrics with user input values
     processed_data = calculate_metrics(data, funded_cac_increase)
@@ -57,14 +57,54 @@ if 'data' in locals() and not data.empty:
     
     # Line chart for LTV/CAC by year
     fig_line_chart = go.Figure()
-    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'], mode='lines+markers', name='LTV/CAC Ratio'))
+    
+    # Highlight the forecast period with a shaded rectangle
+    forecast_start_year = 2024
+    forecast_end_year = 2028
+    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
+                                       mode='lines+markers', name='LTV/CAC Ratio'))
+    
     fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
+
+    # Add a shaded rectangle to highlight the forecast period
+    fig_line_chart.update_layout(shapes=[
+        dict(
+            type='rect',
+            x0=forecast_start_year,
+            x1=forecast_end_year,
+            y0=processed_data['ltv_cac_ratio'].min(),
+            y1=processed_data['ltv_cac_ratio'].max(),
+            fillcolor='rgba(0, 100, 0, 0.1)',
+            layer='below',
+            line=dict(width=0),
+        )
+    ])
+
     st.plotly_chart(fig_line_chart)
 
     # Line chart for Payback by year
     fig_payback_chart = go.Figure()
-    fig_payback_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['payback'], mode='lines+markers', name='Payback'))
+
+    # Highlight the forecast period with a shaded rectangle
+    fig_payback_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['payback'],
+                                          mode='lines+markers', name='Payback'))
+    
     fig_payback_chart.update_layout(title='Payback by Year')
+
+    # Add a shaded rectangle to highlight the forecast period
+    fig_payback_chart.update_layout(shapes=[
+        dict(
+            type='rect',
+            x0=forecast_start_year,
+            x1=forecast_end_year,
+            y0=processed_data['payback'].min(),
+            y1=processed_data['payback'].max(),
+            fillcolor='rgba(0, 100, 0, 0.1)',
+            layer='below',
+            line=dict(width=0),
+        )
+    ])
+
     st.plotly_chart(fig_payback_chart)
 
     # Additional insights
