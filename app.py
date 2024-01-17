@@ -87,10 +87,10 @@ if 'data' in locals() and not data.empty:
     # Column chart for Funded CAC and LTV by year
     fig_funded_cac_ltv_column = go.Figure()
     
-    # Add Funded CAC to the column chart with black color
+    # Add Funded CAC to the column chart with a different color
     fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['Funded CAC'],
                                                name='Funded CAC',
-                                               marker_color='#CEE4F4',  # Set color to black
+                                               marker_color='#A9A9A9',  # Set color to grey
                                                text=processed_data['Funded CAC'].round(2),
                                                textposition='outside'))
     
@@ -126,30 +126,15 @@ if 'data' in locals() and not data.empty:
     # Column chart for Payback by year
     fig_payback_chart = go.Figure()
 
-    # Highlight the forecast period with a shaded rectangle
-    forecast_start_year = 2024
-    forecast_end_year = 2028
+    # Add Payback to the column chart with a different color
     fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
                                       name='Payback',
-                                      marker_color='#FF9425',  # Set color to orange
+                                      marker_color='#A9A9A9',  # Set color to grey
                                       text=processed_data['payback'].round(2),
                                       textposition='outside'))
     
     fig_payback_chart.update_layout(title='Payback (Unit: Year)')
 
-    # Add a shaded rectangle to highlight the forecast period
-    fig_payback_chart.update_layout(shapes=[
-        dict(
-            type='rect',
-            x0=forecast_start_year,
-            x1=forecast_end_year,
-            y0=processed_data['payback'].min(),
-            y1=processed_data['payback'].max(),
-            fillcolor='rgba(0, 100, 0, 0.1)',
-            layer='below',
-            line=dict(width=0),
-        )
-    ])
     fig_payback_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
     fig_payback_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
