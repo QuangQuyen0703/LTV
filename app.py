@@ -37,7 +37,7 @@ def calculate_metrics(data, funded_cac_increase):
     data['ltv_cac_ratio'] = data['ltv'] / data['Funded CAC']
 
     # Calculate Payback
-    data['payback'] = (data['ARPU'] - data['Direct Cost']) / data['Funded CAC']
+    data['payback'] = data['Funded CAC'] / (data['ARPU'] - data['Direct Cost']) 
 
     # Calculate New Customer
     data['new_customer'] = data['New Customer']
