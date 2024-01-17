@@ -52,9 +52,9 @@ st.title('LTV Analysis')
 st.sidebar.title("Input Settings")
 
 # Raw Data
-st.sidebar.subheader('Raw Data')
+# st.sidebar.subheader('Raw Data')
 data = pd.read_csv("./data.csv")
-st.sidebar.write(data)
+# st.sidebar.write(data)
 
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
