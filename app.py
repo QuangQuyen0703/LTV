@@ -107,6 +107,12 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_funded_cac_ltv_column)
     
+    # Line chart for LTV/CAC by year
+    fig_line_chart = go.Figure()
+    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'], mode='lines+markers', name='LTV/CAC Ratio'))
+    fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
+    st.plotly_chart(fig_line_chart)
+    
     # Column chart for LTV/CAC by year
     fig_line_chart = go.Figure()
     
