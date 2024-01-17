@@ -64,8 +64,7 @@ if 'data' in locals() and not data.empty:
     # Visualization
     st.subheader('Additional Metrics Visualization')
 
-    # Column chart for New Customer by year (units in thousands)
-    st.subheader('New Customer by Year')
+    # Column chart for New Customer by year (Unit: Thousands)
     fig_new_customer_column = go.Figure()
 
     # Set the color to purple (#563D82)
@@ -83,7 +82,6 @@ if 'data' in locals() and not data.empty:
     st.plotly_chart(fig_new_customer_column)
 
     # Column chart for Funded CAC and LTV by year
-    st.subheader('Funded CAC and LTV (Unit: USD)')
     fig_funded_cac_ltv_column = go.Figure()
     
     # Add Funded CAC to the column chart with black color
