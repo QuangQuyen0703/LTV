@@ -39,8 +39,8 @@ def calculate_metrics(data, funded_cac_increase):
     # Calculate Payback
     data['payback'] = (data['ARPU'] - data['Direct Cost']) / data['Funded CAC']
 
-    # Calculate New Active Customer
-    data['new_active_customer'] = data['New Customer'] * data['Active Rate']
+    # Calculate New Customer
+    data['new_customer'] = data['New Customer']
 
     return data
 
@@ -117,17 +117,17 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_payback_chart)
 
-    # Line chart for New Active Customer by year
-    st.subheader('New Active Customer by Year')
-    fig_new_active_customer_line = go.Figure()
-    fig_new_active_customer_line.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['new_active_customer'],
-                                                      mode='lines+markers', name='New Active Customer',
-                                                      text=processed_data['new_active_customer'].round(2),
-                                                      textposition='top center'))
+    # Line chart for New Customer by year
+    st.subheader('New Customer by Year')
+    fig_new_customer_line = go.Figure()
+    fig_new_customer_line.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['new_customer'],
+                                               mode='lines+markers', name='New Customer',
+                                               text=processed_data['new_customer'].round(2),
+                                               textposition='top center'))
     
-    fig_new_active_customer_line.update_layout(title='New Active Customer by Year')
+    fig_new_customer_line.update_layout(title='New Customer by Year')
 
-    st.plotly_chart(fig_new_active_customer_line)
+    st.plotly_chart(fig_new_customer_line)
 
     # Additional insights
     st.subheader('Insights')
