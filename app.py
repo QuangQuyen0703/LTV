@@ -58,83 +58,21 @@ if 'data' in locals() and not data.empty:
     # Process and calculate additional metrics with user input values
     processed_data = calculate_metrics(data, funded_cac_increase)
     
+    # Filter out 2021 and 2022 from the Payback chart
+    processed_data_payback_filtered = processed_data[processed_data['Year'] > 2022]
+
     # Visualization
     st.subheader('Additional Metrics Visualization')
 
-    # Column chart for New Customer by year (units in thousands)
-    st.subheader('New Customer by Year')
-    fig_new_customer_column = go.Figure()
-
-    # Set the color to purple (#563D82)
-    new_customer_color = '#563D82'
-    fig_new_customer_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['new_customer'] / 1000,
-                                             name='New Customer (in thousands)',
-                                             marker_color=new_customer_color,
-                                             text=(processed_data['new_customer'] / 1000).round(2),
-                                             textposition='outside'))
-    
-    fig_new_customer_column.update_layout(title='New Customer by Year (in thousands)')
-
-    st.plotly_chart(fig_new_customer_column)
-
-    # Column chart for Funded CAC and LTV by year
-    st.subheader('Funded CAC and LTV by Year')
-    fig_funded_cac_ltv_column = go.Figure()
-    
-    # Add Funded CAC to the column chart with black color
-    fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['Funded CAC'],
-                                               name='Funded CAC',
-                                               marker_color='#CEE4F4',  # Set color to black
-                                               text=processed_data['Funded CAC'].round(2),
-                                               textposition='outside'))
-    
-    # Add LTV to the column chart with blue color
-    fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv'],
-                                               name='LTV',
-                                               marker_color='#2774AE',  # Set color to blue
-                                               text=processed_data['ltv'].round(2),
-                                               textposition='outside'))
-    
-    fig_funded_cac_ltv_column.update_layout(barmode='group', title='Funded CAC and LTV by Year')
-
-    st.plotly_chart(fig_funded_cac_ltv_column)
-    
-    # Line chart for LTV/CAC by year
-    fig_line_chart = go.Figure()
-    
-    # Highlight the forecast period with a shaded rectangle
-    forecast_start_year = 2024
-    forecast_end_year = 2028
-    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
-                                       mode='lines+markers', name='LTV/CAC Ratio',
-                                       text=processed_data['ltv_cac_ratio'].round(2),
-                                       textposition='top center'))
-    
-    fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
-
-    # Add a shaded rectangle to highlight the forecast period
-    fig_line_chart.update_layout(shapes=[
-        dict(
-            type='rect',
-            x0=forecast_start_year,
-            x1=forecast_end_year,
-            y0=processed_data['ltv_cac_ratio'].min(),
-            y1=processed_data['ltv_cac_ratio'].max(),
-            fillcolor='rgba(0, 100, 0, 0.1)',
-            layer='below',
-            line=dict(width=0),
-        )
-    ])
-
-    st.plotly_chart(fig_line_chart)
+    # ... (your existing code)
 
     # Line chart for Payback by year
     fig_payback_chart = go.Figure()
 
     # Highlight the forecast period with a shaded rectangle
-    fig_payback_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['payback'],
+    fig_payback_chart.add_trace(go.Scatter(x=processed_data_payback_filtered['Year'], y=processed_data_payback_filtered['payback'],
                                           mode='lines+markers', name='Payback',
-                                          text=processed_data['payback'].round(2),
+                                          text=processed_data_payback_filtered['payback'].round(2),
                                           textposition='top center'))
     
     fig_payback_chart.update_layout(title='Payback by Year')
@@ -145,8 +83,8 @@ if 'data' in locals() and not data.empty:
             type='rect',
             x0=forecast_start_year,
             x1=forecast_end_year,
-            y0=processed_data['payback'].min(),
-            y1=processed_data['payback'].max(),
+            y0=processed_data_payback_filtered['payback'].min(),
+            y1=processed_data_payback_filtered['payback'].max(),
             fillcolor='rgba(0, 100, 0, 0.1)',
             layer='below',
             line=dict(width=0),
