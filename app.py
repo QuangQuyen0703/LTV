@@ -117,17 +117,17 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_payback_chart)
 
-    # Line chart for New Customer by year
+    # Column chart for New Customer by year
     st.subheader('New Customer by Year')
-    fig_new_customer_line = go.Figure()
-    fig_new_customer_line.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['new_customer'],
-                                               mode='lines+markers', name='New Customer',
-                                               text=processed_data['new_customer'].round(2),
-                                               textposition='top center'))
+    fig_new_customer_column = go.Figure()
+    fig_new_customer_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['new_customer'],
+                                             name='New Customer',
+                                             text=processed_data['new_customer'].round(2),
+                                             textposition='outside'))
     
-    fig_new_customer_line.update_layout(title='New Customer by Year')
+    fig_new_customer_column.update_layout(title='New Customer by Year')
 
-    st.plotly_chart(fig_new_customer_line)
+    st.plotly_chart(fig_new_customer_column)
 
     # Additional insights
     st.subheader('Insights')
