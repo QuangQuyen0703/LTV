@@ -118,7 +118,7 @@ fig_line_chart = go.Figure()
 fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
                                    mode='lines+text', name='LTV/CAC Ratio', line=dict(color='#EB3300'),
                                    text=processed_data['ltv_cac_ratio'].round(2),
-                                   textposition='top center', textfont=dict(color='#000000')))
+                                   textposition='top left', textfont=dict(color='#000000')))
 
 fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
 fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
