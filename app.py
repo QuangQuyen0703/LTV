@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
+import matplotlib.pyplot as plt  # Import matplotlib for creating column chart
 
 # Function to calculate additional metrics
 def calculate_metrics(data, funded_cac_increase):
@@ -115,9 +116,9 @@ if 'data' in locals() and not data.empty:
     st.plotly_chart(fig_payback_chart)
 
     # Column chart for Total Gross Profit by year
-   st.subheader('Total Gross Profit')
+    st.subheader('Total Gross Profit')
     fig, ax = plt.subplots()
-    ax.bar(processed_data.index, processed_data['total_gross_profit'])
+    ax.bar(processed_data['Year'], processed_data['total_gross_profit'])
     st.pyplot(fig)
 
     # Additional insights
