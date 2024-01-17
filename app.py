@@ -114,17 +114,6 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_payback_chart)
 
-    # Line chart for Active Customer by year
-    st.subheader('Active Customer by Year')
-    fig_active_customer_line = go.Figure()
-    fig_active_customer_line.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['active_customer'],
-                                                  mode='lines+markers', name='Active Customer',
-                                                  text=processed_data['active_customer'].round(2),
-                                                  textposition='top center'))
-    
-    fig_active_customer_line.update_layout(title='Active Customer by Year')
-
-    st.plotly_chart(fig_active_customer_line)
 
     # Additional insights
     st.subheader('Insights')
