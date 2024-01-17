@@ -117,7 +117,7 @@ fig_line_chart = go.Figure()
 # Add LTV/CAC to the line chart with red color
 fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
                                    mode='lines+text', name='LTV/CAC Ratio', line=dict(color='#EB3300'),
-                                   text=processed_data['ltv_cac_ratio'].round(2),
+                                   text=processed_data['ltv_cac_ratio'].round(2), shape='spline',
                                    textposition='top left', textfont=dict(color='#7F7F7F')))
 
 fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
