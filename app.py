@@ -75,7 +75,7 @@ if 'data' in locals() and not data.empty:
                                              text=(processed_data['new_customer'] / 1000).round(2),
                                              textposition='outside'))
     
-    fig_new_customer_column.update_layout(title='New Customer by Year (in thousands)')
+    fig_new_customer_column.update_layout(title='New Customer Acquisition (Unit: Thousands)')
     fig_new_customer_column.update_xaxes(showgrid=False)  # Remove x-axis gridlines
     fig_new_customer_column.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
@@ -98,7 +98,7 @@ if 'data' in locals() and not data.empty:
                                                text=processed_data['ltv'].round(2),
                                                textposition='outside'))
     
-    fig_funded_cac_ltv_column.update_layout(barmode='group', title='Funded CAC and LTV by Year')
+    fig_funded_cac_ltv_column.update_layout(barmode='group', title='Funded CAC and LTV (Unit: USD)')
     fig_funded_cac_ltv_column.update_xaxes(showgrid=False)  # Remove x-axis gridlines
     fig_funded_cac_ltv_column.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
@@ -116,7 +116,7 @@ if 'data' in locals() and not data.empty:
                                    text=processed_data['ltv_cac_ratio'].round(2),
                                    textposition='outside'))
     
-    fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
+    fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
 
     # Add a shaded rectangle to highlight the forecast period
     fig_line_chart.update_layout(shapes=[
@@ -146,7 +146,7 @@ if 'data' in locals() and not data.empty:
                                       text=processed_data['payback'].round(2),
                                       textposition='outside'))
     
-    fig_payback_chart.update_layout(title='Payback by Year')
+    fig_payback_chart.update_layout(title='Payback (Unit: Year)')
 
     # Add a shaded rectangle to highlight the forecast period
     fig_payback_chart.update_layout(shapes=[
