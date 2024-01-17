@@ -116,18 +116,10 @@ if 'data' in locals() and not data.empty:
     st.plotly_chart(fig_payback_chart)
 
     # Column chart for Total Gross Profit by year
-    # Column chart for Total Gross Profit by year
-st.subheader('Total Gross Profit')
-fig, ax = plt.subplots()
-bars = ax.bar(processed_data['Year'], processed_data['total_gross_profit'])
-
-# Displaying labels on top of the bars
-for bar in bars:
-    yval = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2, yval, round(yval, 2), ha='center', va='bottom')
-
-st.pyplot(fig)
-
+    st.subheader('Total Gross Profit')
+    fig, ax = plt.subplots()
+    ax.bar(processed_data['Year'], processed_data['total_gross_profit'])
+    st.pyplot(fig)
 
     # Additional insights
     st.subheader('Insights')
