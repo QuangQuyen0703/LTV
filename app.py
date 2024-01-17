@@ -108,7 +108,7 @@ if 'data' in locals() and not data.empty:
     forecast_end_year = 2028
     fig_line_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
                                    name='LTV/CAC Ratio',
-                                   marker_color='#00CC96',  # Set color to green
+                                   marker_color='#EB3300',  # Set color to green
                                    text=processed_data['ltv_cac_ratio'].round(2),
                                    textposition='outside'))
     
@@ -136,7 +136,7 @@ if 'data' in locals() and not data.empty:
     # Highlight the forecast period with a shaded rectangle
     fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
                                       name='Payback',
-                                      marker_color='#FFA15A',  # Set color to orange
+                                      marker_color='#FF9425',  # Set color to orange
                                       text=processed_data['payback'].round(2),
                                       textposition='outside'))
     
