@@ -63,6 +63,10 @@ if 'data' in locals() and not data.empty:
 
     # Process and calculate additional metrics with user input values
     processed_data = calculate_metrics(data, funded_cac_increase)
+
+    st.subheader('Definition:')
+    # Additional insights
+    st.write("Payback is calculated by dividing Funded CAC by GP per Active..")
     
     # Visualization
     st.subheader('Additional Metrics Visualization')
@@ -84,8 +88,7 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_payback_chart)
 
-     # Additional insights
-    st.write("Payback is calculated by dividing Funded CAC by GP per Active.")
+    
 
     # Column chart for Funded CAC and LTV by year
     fig_funded_cac_ltv_column = go.Figure()
@@ -136,5 +139,4 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_new_customer_column)
 
-    # Additional insights
-    st.write("Your insights here based on the calculated data.")
+    
