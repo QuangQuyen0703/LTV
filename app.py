@@ -75,6 +75,8 @@ if 'data' in locals() and not data.empty:
                                              textposition='outside'))
     
     fig_new_customer_column.update_layout(title='New Customer by Year (in thousands)')
+    fig_new_customer_column.update_xaxes(showgrid=False)  # Remove x-axis gridlines
+    fig_new_customer_column.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
     st.plotly_chart(fig_new_customer_column)
 
@@ -97,6 +99,8 @@ if 'data' in locals() and not data.empty:
                                                textposition='outside'))
     
     fig_funded_cac_ltv_column.update_layout(barmode='group', title='Funded CAC and LTV by Year')
+    fig_funded_cac_ltv_column.update_xaxes(showgrid=False)  # Remove x-axis gridlines
+    fig_funded_cac_ltv_column.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
     st.plotly_chart(fig_funded_cac_ltv_column)
     
@@ -127,6 +131,8 @@ if 'data' in locals() and not data.empty:
             line=dict(width=0),
         )
     ])
+    fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
+    fig_line_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
     st.plotly_chart(fig_line_chart)
 
@@ -155,6 +161,8 @@ if 'data' in locals() and not data.empty:
             line=dict(width=0),
         )
     ])
+    fig_payback_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
+    fig_payback_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
     st.plotly_chart(fig_payback_chart)
 
