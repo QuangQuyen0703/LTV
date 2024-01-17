@@ -55,8 +55,10 @@ st.write(data)
 
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
-    # Input for Funded CAC increase from 5 to 30
-    funded_cac_increase = st.number_input('Funded CAC Input 2024-2028 (Unit: USD)', min_value=5, max_value=30, step=1, value=10)
+    # Create an expander for Funded CAC input
+    with st.beta_expander("Funded CAC Input", expanded=True):
+        # Input for Funded CAC increase from 5 to 30
+        funded_cac_increase = st.number_input('Funded CAC Input 2024-2028 (Unit: USD)', min_value=5, max_value=30, step=1, value=10)
 
     # Process and calculate additional metrics with user input values
     processed_data = calculate_metrics(data, funded_cac_increase)
