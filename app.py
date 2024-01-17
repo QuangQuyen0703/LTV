@@ -110,9 +110,7 @@ if 'data' in locals() and not data.empty:
     # Column chart for LTV/CAC by year
     fig_line_chart = go.Figure()
     
-    # Highlight the forecast period with a shaded rectangle
-    forecast_start_year = 2024
-    forecast_end_year = 2028
+    # Add LTV/CAC to the column chart with green color
     fig_line_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
                                    name='LTV/CAC Ratio',
                                    marker_color='#EB3300',  # Set color to green
@@ -120,20 +118,6 @@ if 'data' in locals() and not data.empty:
                                    textposition='outside'))
     
     fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
-
-    # Add a shaded rectangle to highlight the forecast period
-    fig_line_chart.update_layout(shapes=[
-        dict(
-            type='rect',
-            x0=forecast_start_year,
-            x1=forecast_end_year,
-            y0=processed_data['ltv_cac_ratio'].min(),
-            y1=processed_data['ltv_cac_ratio'].max(),
-            fillcolor='rgba(0, 100, 0, 0.1)',
-            layer='below',
-            line=dict(width=0),
-        )
-    ])
     fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
     fig_line_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
@@ -143,6 +127,8 @@ if 'data' in locals() and not data.empty:
     fig_payback_chart = go.Figure()
 
     # Highlight the forecast period with a shaded rectangle
+    forecast_start_year = 2024
+    forecast_end_year = 2028
     fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
                                       name='Payback',
                                       marker_color='#FF9425',  # Set color to orange
