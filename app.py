@@ -27,6 +27,9 @@ def calculate_metrics(data, funded_cac_increase):
     # Calculate GP/Active
     data['gp_per_active'] = (data['ARPU'] - data['Direct Cost'])
 
+    # Calculate total gross profit
+    data['total_gross_profit'] = data['gp_per_active'] * data['active_customer']
+
     # Calculate LTV
     data['ltv'] = (data['ARPU'] - data['Direct Cost']) / data['Churn Rate']
 
@@ -63,8 +66,8 @@ if 'data' in locals() and not data.empty:
     forecast_end_year = 2028
     fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
                                        mode='lines+markers', name='LTV/CAC Ratio',
-                                       text=processed_data['ltv_cac_ratio'].round(2), # Display rounded values as text
-                                       textposition='top center'))  # Adjust text position
+                                       text=processed_data['ltv_cac_ratio'].round(2),
+                                       textposition='top center'))
     
     fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
 
@@ -90,8 +93,8 @@ if 'data' in locals() and not data.empty:
     # Highlight the forecast period with a shaded rectangle
     fig_payback_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['payback'],
                                           mode='lines+markers', name='Payback',
-                                          text=processed_data['payback'].round(2), # Display rounded values as text
-                                          textposition='top center'))  # Adjust text position
+                                          text=processed_data['payback'].round(2),
+                                          textposition='top center'))
     
     fig_payback_chart.update_layout(title='Payback by Year')
 
@@ -110,6 +113,14 @@ if 'data' in locals() and not data.empty:
     ])
 
     st.plotly_chart(fig_payback_chart)
+
+    # Column chart for Total Gross Profit by year
+    fig_gross_profit_chart = go.Figure()
+    fig_gross_profit_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['total_gross_profit'],
+                                            text=processed_data['total_gross_profit'].round(2),
+                                            textposition='outside'))
+    fig_gross_profit_chart.update_layout(title='Total Gross Profit by Year')
+    st.plotly_chart(fig_gross_profit_chart)
 
     # Additional insights
     st.subheader('Insights')
