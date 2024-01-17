@@ -115,12 +115,10 @@ if 'data' in locals() and not data.empty:
     st.plotly_chart(fig_payback_chart)
 
     # Column chart for Total Gross Profit by year
-    fig_gross_profit_chart = go.Figure()
-    fig_gross_profit_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['total_gross_profit'],
-                                            text=processed_data['total_gross_profit'].round(2),
-                                            textposition='outside'))
-    fig_gross_profit_chart.update_layout(title='Total Gross Profit by Year')
-    st.plotly_chart(fig_gross_profit_chart)
+   st.subheader('Total Gross Profit')
+    fig, ax = plt.subplots()
+    ax.bar(processed_data.index, processed_data['total_gross_profit'])
+    st.pyplot(fig)
 
     # Additional insights
     st.subheader('Insights')
