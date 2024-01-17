@@ -167,5 +167,4 @@ if 'data' in locals() and not data.empty:
     st.plotly_chart(fig_payback_chart)
 
     # Additional insights
-    st.subheader('Insights')
     st.write("Your insights here based on the calculated data.")
