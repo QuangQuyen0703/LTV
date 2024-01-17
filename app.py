@@ -46,17 +46,15 @@ def calculate_metrics(data, funded_cac_increase):
     return data
 
 # Title of the app
-st.title('LTV Analysis')
-
-st.write('Raw Data')
+st.title('LTV:CAC Visualization App')
 
 data = pd.read_csv("./data.csv")
 st.write(data)
 
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
-    # Slider for Funded CAC increase from 5 to 40
-    funded_cac_increase = st.slider('Funded CAC Input 2024-2028 ($)', min_value=5, max_value=30, step=1, value=10)
+    # Input for Funded CAC increase from 5 to 30
+    funded_cac_increase = st.number_input('Funded CAC Input 2024-2028 ($)', min_value=5, max_value=30, step=1, value=10)
 
     # Process and calculate additional metrics with user input values
     processed_data = calculate_metrics(data, funded_cac_increase)
@@ -139,35 +137,3 @@ if 'data' in locals() and not data.empty:
     st.plotly_chart(fig_line_chart)
 
     # Column chart for Payback by year
-    fig_payback_chart = go.Figure()
-
-    # Highlight the forecast period with a shaded rectangle
-    fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
-                                      name='Payback',
-                                      marker_color='#FF9425',  # Set color to orange
-                                      text=processed_data['payback'].round(2),
-                                      textposition='outside'))
-    
-    fig_payback_chart.update_layout(title='Payback by Year')
-
-    # Add a shaded rectangle to highlight the forecast period
-    fig_payback_chart.update_layout(shapes=[
-        dict(
-            type='rect',
-            x0=forecast_start_year,
-            x1=forecast_end_year,
-            y0=processed_data['payback'].min(),
-            y1=processed_data['payback'].max(),
-            fillcolor='rgba(0, 100, 0, 0.1)',
-            layer='below',
-            line=dict(width=0),
-        )
-    ])
-    fig_payback_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-    fig_payback_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
-
-    st.plotly_chart(fig_payback_chart)
-
-    # Additional insights
-    st.subheader('Insights')
-    st.write("Your insights here based on the calculated data.")
