@@ -66,7 +66,6 @@ st.subheader('New Customer by Year')
 fig_new_customer_column = go.Figure()
 
 # Add a trace for New Customer with the specified color
-new_customer_color = '#563D82'
 fig_new_customer_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['new_customer'] / 1000,
                                          name='New Customer (in thousands)',
                                          marker_color=new_customer_color,
