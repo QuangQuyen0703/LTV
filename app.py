@@ -125,19 +125,5 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_line_chart)
 
-    # Column chart for New Customer by year (Unit: Thousands)
-    fig_new_customer_column = go.Figure()
-
-    # Set the color to purple (#FF9425)
-    new_customer_color = '#FF9425'
-    fig_new_customer_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['new_customer'] / 1000,
-                                             name='New Customer (in thousands)',
-                                             marker_color=new_customer_color,
-                                             text=(processed_data['new_customer'] / 1000).round(2),
-                                             textposition='outside'))
-    
-    fig_new_customer_column.update_layout(title='New Customer Acquisition (Unit: Thousands)')
-    fig_new_customer_column.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-    fig_new_customer_column.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
     st.plotly_chart(fig_new_customer_column)
