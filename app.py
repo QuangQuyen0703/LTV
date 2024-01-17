@@ -84,7 +84,7 @@ if 'data' in locals() and not data.empty:
     # Add Funded CAC to the column chart with black color
     fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['Funded CAC'],
                                                name='Funded CAC',
-                                               marker_color='black',  # Set color to black
+                                               marker_color='#CEE4F4',  # Set color to black
                                                text=processed_data['Funded CAC'].round(2),
                                                textposition='outside'))
     
