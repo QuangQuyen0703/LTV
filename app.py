@@ -84,6 +84,9 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_payback_chart)
 
+     # Additional insights
+    st.write("Payback is calculated by dividing Funded CAC by GP per Active.")
+
     # Column chart for Funded CAC and LTV by year
     fig_funded_cac_ltv_column = go.Figure()
     
@@ -110,7 +113,7 @@ if 'data' in locals() and not data.empty:
     # Line chart for LTV/CAC by year
     fig_line_chart = go.Figure()
     fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'], mode='lines+markers', name='LTV/CAC Ratio', line=dict(color='#EB3300'))) 
-    fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
+    fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
     fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
     fig_line_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
     st.plotly_chart(fig_line_chart)
