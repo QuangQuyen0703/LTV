@@ -115,6 +115,38 @@ if 'data' in locals() and not data.empty:
 
     st.plotly_chart(fig_payback_chart)
 
+    # Line chart for Total Gross Profit by year
+    st.subheader('Total Gross Profit')
+    fig_gross_profit_line = go.Figure()
+    fig_gross_profit_line.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['total_gross_profit'],
+                                               mode='lines+markers', name='Total Gross Profit',
+                                               text=processed_data['total_gross_profit'].round(2),
+                                               textposition='top center'))
+    
+    fig_gross_profit_line.update_layout(title='Total Gross Profit by Year')
+
+    st.plotly_chart(fig_gross_profit_line)
+
+    # Column chart for Total Gross Profit by year
+    st.subheader('Total Gross Profit')
+    fig, ax = plt.subplots()
+    bars = ax.bar(processed_data['Year'], processed_data['total_gross_profit'])
+
+    # Displaying labels on top of the bars
+    for bar in bars:
+        yval = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2, yval, round(yval, 2), ha='center', va='bottom')
+
+    st.pyplot(fig)
+
+    # Column chart for Gross Profit from 2021 to 2028
+    st.subheader('Gross Profit (2021-2028)')
+    fig_gross_profit = go.Figure()
+    fig_gross_profit.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['total_gross_profit']))
+
+    fig_gross_profit.update_layout(title='Gross Profit from 2021 to 2028')
+    st.plotly_chart(fig_gross_profit)
+
     # Additional insights
     st.subheader('Insights')
     st.write("Your insights here based on the calculated data.")
