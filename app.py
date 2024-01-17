@@ -113,21 +113,6 @@ if 'data' in locals() and not data.empty:
     fig_line_chart.update_layout(title='LTV/CAC Ratio by Year')
     st.plotly_chart(fig_line_chart)
     
-    # Column chart for LTV/CAC by year
-    fig_line_chart = go.Figure()
-    
-    # Add LTV/CAC to the column chart with green color
-    fig_line_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
-                                   name='LTV/CAC Ratio',
-                                   marker_color='#EB3300',  # Set color to green
-                                   text=processed_data['ltv_cac_ratio'].round(2),
-                                   textposition='outside'))
-    
-    fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
-    fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-    fig_line_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
-
-    st.plotly_chart(fig_line_chart)
 
     # Column chart for Payback by year
     fig_payback_chart = go.Figure()
