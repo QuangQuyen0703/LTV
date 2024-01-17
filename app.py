@@ -120,7 +120,7 @@ if 'data' in locals() and not data.empty:
     fig_new_customer_column = go.Figure()
 
     # Set the color to purple (#FF9425)
-    new_customer_color = '#563D82'
+    new_customer_color = '#FF9425'
     fig_new_customer_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['new_customer'] / 1000,
                                              name='New Customer (in thousands)',
                                              marker_color=new_customer_color,
