@@ -126,4 +126,3 @@ if 'data' in locals() and not data.empty:
     st.plotly_chart(fig_line_chart)
 
 
-    st.plotly_chart(fig_new_customer_column)
