@@ -69,7 +69,7 @@ if 'data' in locals() and not data.empty:
     st.write("Payback is calculated using the formula of dividing Funded CAC by GP per Active.")
     
     # Visualization
-    st.subheader('Additional Metrics Visualization')
+    st.subheader('Metrics Visualization')
 
     # Column chart for Payback by year
     fig_payback_chart = go.Figure()
