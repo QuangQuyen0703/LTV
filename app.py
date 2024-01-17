@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-import matplotlib.pyplot as plt
 
 # Function to calculate additional metrics
 def calculate_metrics(data, funded_cac_increase):
