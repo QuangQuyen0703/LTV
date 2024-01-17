@@ -103,7 +103,7 @@ if 'data' in locals() and not data.empty:
                                                name='LTV',
                                                marker_color='#2774AE',  # Set color to blue
                                                text=processed_data['ltv'].round(2),
-                                               textposition='outside'))
+                                               textposition='outside',))
     
     fig_funded_cac_ltv_column.update_layout(barmode='group', title='Funded CAC and LTV (Unit: USD)')
     fig_funded_cac_ltv_column.update_xaxes(showgrid=False)  # Remove x-axis gridlines
@@ -118,7 +118,7 @@ fig_line_chart = go.Figure()
 fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
                                    mode='lines+text', name='LTV/CAC Ratio', line=dict(color='#EB3300'),
                                    text=processed_data['ltv_cac_ratio'].round(2),
-                                   textposition='top left', textfont=dict(color='#000000')))
+                                   textposition='top left', textfont=dict(color='#7F7F7F')))
 
 fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
 fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
