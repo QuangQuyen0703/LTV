@@ -61,7 +61,7 @@ if 'data' in locals() and not data.empty:
     # Visualization
     st.subheader('Additional Metrics Visualization')
 
-     # Column chart for New Customer by year (units in thousands)
+    # Column chart for New Customer by year (units in thousands)
     st.subheader('New Customer by Year')
     fig_new_customer_column = go.Figure()
 
@@ -81,15 +81,17 @@ if 'data' in locals() and not data.empty:
     st.subheader('Funded CAC and LTV by Year')
     fig_funded_cac_ltv_column = go.Figure()
     
-    # Add Funded CAC to the column chart
+    # Add Funded CAC to the column chart with black color
     fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['Funded CAC'],
                                                name='Funded CAC',
+                                               marker_color='black',  # Set color to black
                                                text=processed_data['Funded CAC'].round(2),
                                                textposition='outside'))
     
-    # Add LTV to the column chart
+    # Add LTV to the column chart with blue color
     fig_funded_cac_ltv_column.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv'],
                                                name='LTV',
+                                               marker_color='blue',  # Set color to blue
                                                text=processed_data['ltv'].round(2),
                                                textposition='outside'))
     
@@ -152,7 +154,6 @@ if 'data' in locals() and not data.empty:
     ])
 
     st.plotly_chart(fig_payback_chart)
-
 
     # Additional insights
     st.subheader('Insights')
