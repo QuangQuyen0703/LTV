@@ -74,7 +74,7 @@ if 'data' in locals() and not data.empty:
     # Add Payback to the column chart with a different color
     fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
                                        name='Payback',
-                                       marker_color='#A9A9A9',  # Set color to grey
+                                       marker_color='#563D82',  # Set color to grey
                                        text=processed_data['payback'].round(2),
                                        textposition='outside'))
 
