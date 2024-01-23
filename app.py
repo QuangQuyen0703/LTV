@@ -39,7 +39,7 @@ def calculate_metrics(data, funded_cac_increase):
     # Calculate Payback
     data['payback'] = data['Funded CAC'] / (data['ARPU'] - data['Direct Cost'])
     data['payback'] = data['payback'].clip(lower=0)  # Set Payback to 0 if less than 0
-    
+
     return data
 
 # Title of the app
@@ -68,33 +68,19 @@ if 'data' in locals() and not data.empty:
     # Visualization
     st.subheader(' Metrics Visualization:')
     
-st.plotly_chart(fig_funded_cac_ltv_column)
+    # Column chart for LTV/CAC by year
+    fig_line_chart = go.Figure()
 
-    # Column chart for LTV/CAC by year
-    fig_line_chart = go.Figure()
+    # Add LTV/CAC to the line chart with red color
+    fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
+                                       mode='lines+text', name='LTV/CAC Ratio', line=dict(color='#EB3300'),
+                                       text=processed_data['ltv_cac_ratio'].round(2),
+                                       textposition='top left', textfont=dict(color='#7F7F7F')))
 
-    # Add LTV/CAC to the column chart with green color
-    fig_line_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
-                                   name='LTV/CAC Ratio',
-                                   marker_color='#EB3300',  # Set color to green
-                                   text=processed_data['ltv_cac_ratio'].round(2),
-                                   textposition='outside'))
+    fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
+    fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
+    fig_line_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
-    fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
-    fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-    fig_line_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
-st.plotly_chart(fig_line_chart)
+    st.plotly_chart(fig_line_chart)
 
-fig_line_chart = go.Figure()
-# Add LTV/CAC to the line chart with red color
-fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
-                                   mode='lines+text', name='LTV/CAC Ratio', line=dict(color='#EB3300'),
-                                   text=processed_data['ltv_cac_ratio'].round(2),
-                                   textposition='top left', textfont=dict(color='#7F7F7F')))
-
-fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
-fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-fig_line_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
-
-st.plotly_chart(fig_line_chart)
 st.title('Thank You')
