@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 
 # Function to calculate additional metrics
-def calculate_metrics(data, funded_cac_increase, new_customer_increase_2024, new_customer_increase_2025, new_customer_increase_2026, new_customer_increase_2027, new_customer_increase_2028):
+def calculate_metrics(data, funded_cac_increase):
     # Assuming 'Year', 'Total Customer', 'Active Rate', 'New Customer', 'Funding Rate',
     # 'ARPU', 'Direct Cost', 'Churn Rate', 'Funded CAC' are columns in your data
 
@@ -39,54 +39,11 @@ def calculate_metrics(data, funded_cac_increase, new_customer_increase_2024, new
     # Calculate Payback
     data['payback'] = data['Funded CAC'] / (data['ARPU'] - data['Direct Cost'])
     data['payback'] = data['payback'].clip(lower=0)  # Set Payback to 0 if less than 0
-
-    # Calculate New Customer 2024
-    mask = (data['Year'] == 2024)
-    data.loc[mask, 'New Customer'] = (data.loc[mask, 'New Customer'] * 0) + new_customer_increase_2024
-
-    # Calculate New Customer 2025
-    mask = (data['Year'] == 2025)
-    data.loc[mask, 'New Customer'] = (data.loc[mask, 'New Customer'] * 0) + new_customer_increase_2025
-
-    # Calculate New Customer 2026
-    mask = (data['Year'] == 2026)
-    data.loc[mask, 'New Customer'] = (data.loc[mask, 'New Customer'] * 0) + new_customer_increase_2026
-
-    # Calculate New Customer 2027
-    mask = (data['Year'] == 2027)
-    data.loc[mask, 'New Customer'] = (data.loc[mask, 'New Customer'] * 0) + new_customer_increase_2027
-
-    # Calculate New Customer 2028
-    mask = (data['Year'] == 2028)
-    data.loc[mask, 'New Customer'] = (data.loc[mask, 'New Customer'] * 0) + new_customer_increase_2028
-
-    # Calculate Total Customer 2024
-    mask = (data['Year'] == 2024)
-    data.loc[mask, 'Total Customer'] = (data.loc[mask, 'Total Customer']) + new_customer_increase_2024
-
-    # Calculate Total Customer 2025
-    mask = (data['Year'] == 2025)
-    data.loc[mask, 'Total Customer'] = (data.loc[mask, 'Total Customer']) + new_customer_increase_2024 + new_customer_increase_2025
-
-    # Calculate Total Customer 2026
-    mask = (data['Year'] == 2026)
-    data.loc[mask, 'Total Customer'] = (data.loc[mask, 'Total Customer']) + new_customer_increase_2024 + new_customer_increase_2025 + new_customer_increase_2026
-
-    # Calculate Total Customer 2027
-    mask = (data['Year'] == 2027)
-    data.loc[mask, 'Total Customer'] = (data.loc[mask, 'Total Customer']) + new_customer_increase_2024 + new_customer_increase_2025 + new_customer_increase_2026 + new_customer_increase_2027
-
-    # Calculate Total Customer 2028
-    mask = (data['Year'] == 2028)
-    data.loc[mask, 'Total Customer'] = (data.loc[mask, 'Total Customer']) + new_customer_increase_2024 + new_customer_increase_2025 + new_customer_increase_2026 + new_customer_increase_2027 + new_customer_increase_2028
     
-    # Calculate Revenue
-    data['revenue'] = data['ARPU'] * data['active_customer'] / 1000
-
     return data
 
 # Title of the app
-st.title('PnL Simulator')
+st.title('LTV Simulator')
 
 # Create a sidebar for input
 st.sidebar.title("Input Settings")
@@ -99,15 +56,10 @@ data = pd.read_csv("./data.csv")
 # Check if data is available and then process it
 if 'data' in locals() and not data.empty:
     # Input for Funded CAC increase from 5 to 30
-    new_customer_increase_2024 = st.sidebar.number_input('New Customer 2024 (Unit: Thousand)', min_value=100, max_value=3000, step=1, value=400)
-    new_customer_increase_2025 = st.sidebar.number_input('New Customer 2025 (Unit: Thousand)', min_value=100, max_value=3000, step=1, value=400)
-    new_customer_increase_2026 = st.sidebar.number_input('New Customer 2026 (Unit: Thousand)', min_value=100, max_value=3000, step=1, value=500)
-    new_customer_increase_2027 = st.sidebar.number_input('New Customer 2027 (Unit: Thousand)', min_value=100, max_value=3000, step=1, value=600)
-    new_customer_increase_2028 = st.sidebar.number_input('New Customer 2028 (Unit: Thousand)', min_value=100, max_value=3000, step=1, value=700)
     funded_cac_increase = st.sidebar.number_input('Funded CAC 2024-2028 (Unit: $)', min_value=3, max_value=50, step=1, value=10)
 
     # Process and calculate additional metrics with user input values
-    processed_data = calculate_metrics(data, funded_cac_increase, new_customer_increase_2024, new_customer_increase_2025, new_customer_increase_2026, new_customer_increase_2027, new_customer_increase_2028)
+    processed_data = calculate_metrics(data, funded_cac_increase)
 
     st.subheader(' Definition:')
     # Additional insights
@@ -116,74 +68,16 @@ if 'data' in locals() and not data.empty:
     # Visualization
     st.subheader(' Metrics Visualization:')
 
-    # Column chart for Revenue by year
-    fig_revenue_chart = go.Figure()
 
-    # Add Revenue to the column chart with a different color
-    fig_revenue_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['revenue'],
-                                      name='Revenue',
-                                      marker_color='#563D82',  
-                                      text=processed_data['revenue'].round(2),
-                                      textposition='outside'))
-    
-    fig_revenue_chart.update_layout(title='Revenue (Unit: Mil $)')
+# Add LTV/CAC to the line chart with red color
+fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
+                                   mode='lines+text', name='LTV/CAC Ratio', line=dict(color='#EB3300'),
+                                   text=processed_data['ltv_cac_ratio'].round(2),
+                                   textposition='top left', textfont=dict(color='#7F7F7F')))
 
-    fig_revenue_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-    fig_revenue_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
+fig_line_chart.update_layout(title='LTV/Funded CAC Ratio')
+fig_line_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
+fig_line_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
-    st.plotly_chart(fig_revenue_chart)
-
-    # Column chart for New Customer by year
-    fig_new_customer_chart = go.Figure()
-
-    # Add New Customer to the column chart with a different color
-    fig_new_customer_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['New Customer'],
-                                      name='New Customer',
-                                      marker_color='#563D82',  
-                                      text=processed_data['New Customer'].round(2),
-                                      textposition='outside'))
-    
-    fig_new_customer_chart.update_layout(title='New Customers (Unit: Thousand)')
-
-    fig_new_customer_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-    fig_new_customer_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
-
-    st.plotly_chart(fig_new_customer_chart)
-
-     # Column chart for Total Customer by year
-    fig_total_customer_chart = go.Figure()
-
-     # Add total Customer to the column chart with a different color
-    fig_total_customer_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['Total Customer'],
-                                      name='Total Customer',
-                                      marker_color='#563D82',  
-                                      text=processed_data['Total Customer'].round(2),
-                                      textposition='outside'))
-    
-    fig_total_customer_chart.update_layout(title='Total Customers (Unit: Thousand)')
-
-    fig_total_customer_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-    fig_total_customer_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
-
-    st.plotly_chart(fig_total_customer_chart)
-
-    # Column chart for Active Customer by year
-    fig_active_customer_chart = go.Figure()
-
-     # Add total Customer to the column chart with a different color
-    fig_active_customer_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['active_customer'],
-                                      name='active_customer',
-                                      marker_color='#563D82',  
-                                      text=processed_data['active_customer'].round(2),
-                                      textposition='outside'))
-    
-    fig_active_customer_chart.update_layout(title='Active Customers (Unit: Thousand)')
-
-    fig_active_customer_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
-    fig_active_customer_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
-
-    st.plotly_chart(fig_active_customer_chart)
-
-
-    
-    st.title('Thank You')
+st.plotly_chart(fig_line_chart)
+st.title('Thank You')
