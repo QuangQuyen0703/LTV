@@ -67,7 +67,30 @@ if 'data' in locals() and not data.empty:
     
     # Visualization
     st.subheader(' Metrics Visualization:')
-    
+
+    # Column chart for Payback by year
+    fig_payback_chart = go.Figure()
+
+
+
+    # Add Payback to the column chart with a different color
+    fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
+                                      name='Payback',
+                                      marker_color='#A9A9A9',  # Set color to grey
+                                      text=processed_data['payback'].round(2),
+                                      textposition='outside'))
+
+    fig_payback_chart.update_layout(title='Payback (Unit: Year)')
+
+
+
+    fig_payback_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
+    fig_payback_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
+
+
+
+    st.plotly_chart(fig_payback_chart)
+
     # Column chart for LTV/CAC by year
     fig_line_chart = go.Figure()
 
