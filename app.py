@@ -29,13 +29,6 @@ def calculate_metrics(data, funded_cac_increase, new_customer_increase_2024, new
     data['ltv_cac_ratio'] = data['ltv'] / data['Funded CAC']
     data['payback'] = data['Funded CAC'] / (data['ARPU'] - data['Direct Cost'])
     data['payback'] = data['payback'].clip(lower=0)
-
-    # Assuming you have declared these variables somewhere
-    new_customer_increase_value = globals()[f'new_customer_increase_{year}']
-
-    # Apply New cust increase
-    mask = (data['Year'] >= 2024) & (data['Year'] <= 2028)
-    data.loc[mask, 'New Customer'] = (data.loc[mask, 'New Customer'] * 0) + new_customer_increase_value
     
     # Calculate Revenue
     data['revenue'] = data['ARPU'] * data['active_customer'] / 1000
