@@ -43,6 +43,9 @@ def calculate_metrics(data, funded_cac_increase):
     # Calculate New Customer
     data['new_customer'] = data['New Customer']
 
+    # Calculate Total Revenue
+    data['revenue'] = data['Total Customer'] * data['Active Rate']*data['ARPU']
+
     return data
 
 # Title of the app
@@ -71,22 +74,22 @@ if 'data' in locals() and not data.empty:
     # Visualization
     st.subheader(' Metrics Visualization:')
 
-    # Column chart for Payback by year
-    fig_payback_chart = go.Figure()
+    # Column chart for Revenue by year
+    fig_revenue = go.Figure()
 
     # Add Payback to the column chart with a different color
-    fig_payback_chart.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['payback'],
-                                      name='Payback',
+    fig_revenue.add_trace(go.Bar(x=processed_data['Year'], y=processed_data['revenue'],
+                                      name='revenue',
                                       marker_color='#563D82',  
                                       text=processed_data['payback'].round(2),
                                       textposition='outside'))
     
-    fig_payback_chart.update_layout(title='Payback (Unit: Year)')
+    fig_payback_chart.update_layout(title='revenue (Unit: USD)')
 
     fig_payback_chart.update_xaxes(showgrid=False)  # Remove x-axis gridlines
     fig_payback_chart.update_yaxes(showgrid=False)  # Remove y-axis gridlines
 
-    st.plotly_chart(fig_payback_chart)
+    st.plotly_chart(fig_revenue)
 
     # Column chart for Funded CAC and LTV by year
     fig_funded_cac_ltv_column = go.Figure()
