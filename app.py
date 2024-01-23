@@ -68,7 +68,7 @@ if 'data' in locals() and not data.empty:
     # Visualization
     st.subheader(' Metrics Visualization:')
 
-
+fig_line_chart = go.Figure()
 # Add LTV/CAC to the line chart with red color
 fig_line_chart.add_trace(go.Scatter(x=processed_data['Year'], y=processed_data['ltv_cac_ratio'],
                                    mode='lines+text', name='LTV/CAC Ratio', line=dict(color='#EB3300'),
